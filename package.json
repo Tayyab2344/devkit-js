@@ -1,0 +1,21 @@
+{
+  "name": "devkit-js",
+  "version": "0.1.0",
+  "description": "CLI tool to generate backend boilerplate for JavaScript projects",
+  "type": "module",
+  "bin": {
+    "devkit": "./bin/devkit.js"
+  },
+  "scripts": {
+    "dev": "node src/index.js"
+  },
+  "keywords": [
+    "cli",
+    "backend",
+    "express",
+    "generator",
+    "devkit"
+  ],
+  "author": "Tayyab",
+  "license": "MIT"
+}
