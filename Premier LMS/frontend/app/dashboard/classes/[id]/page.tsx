@@ -617,8 +617,8 @@ export default function ClassroomPage() {
       <div className="flex-1 flex overflow-hidden">
         
         {/* Left Area: Zoom Screen */}
-        <div className="flex-1 bg-black relative flex items-center justify-center p-4">
-          <div ref={containerRef} className="w-full h-full rounded-xl border border-white/5 bg-[#090f0c] shadow-2xl flex items-center justify-center overflow-hidden" />
+        <div className="flex-1 bg-black relative p-4">
+          <div ref={containerRef} className="w-full h-full rounded-xl border border-white/5 bg-[#090f0c] shadow-2xl overflow-hidden relative" />
           
           {/* Internal Loading Overlay */}
           {loading && !error && (
