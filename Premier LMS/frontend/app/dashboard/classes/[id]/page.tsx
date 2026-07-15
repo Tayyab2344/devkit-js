@@ -320,10 +320,17 @@ export default function ClassroomPage() {
 
         // 4. Initialize the Component View SDK inside containerRef
         console.log('ClassroomPage: Initializing client with debug: true...');
+        const containerEl = containerRef.current;
+        const cWidth = containerEl?.clientWidth || window.innerWidth - 280;
+        const cHeight = containerEl?.clientHeight || window.innerHeight - 64;
         await client.init({
-          zoomAppRoot: containerRef.current,
+          zoomAppRoot: containerEl,
           language: 'en-US',
-          debug: true
+          debug: true,
+          customSize: {
+            width: cWidth,
+            height: cHeight,
+          },
         });
 
         // 5. Add event listener to monitor connection changes (after init)
@@ -533,6 +540,19 @@ export default function ClassroomPage() {
         <style dangerouslySetInnerHTML={{ __html: `
           @media print { body { display: none !important; } }
           
+          /* Force Zoom SDK to fill the container */
+          #zmmtg-root {
+            width: 100% !important;
+            height: 100% !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+          }
+          [class*="meeting-app"] {
+            width: 100% !important;
+            height: 100% !important;
+          }
+          
           /* Custom scrollbar for sidebar */
           .custom-scroll::-webkit-scrollbar {
             width: 5px;
@@ -617,8 +637,8 @@ export default function ClassroomPage() {
       <div className="flex-1 flex overflow-hidden">
         
         {/* Left Area: Zoom Screen */}
-        <div className="flex-1 bg-black relative p-4">
-          <div ref={containerRef} className="w-full h-full rounded-xl border border-white/5 bg-[#090f0c] shadow-2xl overflow-hidden relative" />
+        <div className="flex-1 bg-black relative">
+          <div ref={containerRef} className="w-full h-full bg-[#090f0c] overflow-hidden relative" />
           
           {/* Internal Loading Overlay */}
           {loading && !error && (
