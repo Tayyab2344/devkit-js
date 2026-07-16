@@ -65,6 +65,7 @@ export default function ClassroomPage() {
   const [error, setError] = useState('');
   const [showExitDialog, setShowExitDialog] = useState(false);
   const [classDetails, setClassDetails] = useState<any>(null);
+  const [resetting, setResetting] = useState(false);
   const zoomStartedRef = useRef(false);
   const [isMounted, setIsMounted] = useState(false);
   const [debugLogs, setDebugLogs] = useState<string[]>([]);
@@ -354,7 +355,6 @@ export default function ClassroomPage() {
           userName: zoomData.userName
         });
         await client.join({
-          sdkKey: zoomData.sdkKey,
           signature: zoomData.signature,
           meetingNumber: String(zoomData.zoomMeetingId).replace(/\D/g, ''),
           password: zoomData.zoomPasscode,
@@ -663,12 +663,34 @@ export default function ClassroomPage() {
                 <h3 className="font-bold text-sm text-red-400">Classroom Connection Failed</h3>
                 <p className="text-xs text-gray-400">{error}</p>
               </div>
-              <button
-                onClick={() => handleExit(false)}
-                className="px-5 py-2 bg-[#c9a84c] hover:bg-[#b0913f] text-black text-xs font-bold rounded-lg transition-colors cursor-pointer"
-              >
-                Back to Dashboard
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => handleExit(false)}
+                  className="px-5 py-2 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold rounded-lg transition-colors cursor-pointer border border-white/5"
+                >
+                  Back to Dashboard
+                </button>
+                {isAdmin && (
+                  <button
+                    disabled={resetting}
+                    onClick={async () => {
+                      setResetting(true);
+                      try {
+                        await api.post(`/classes/${id}/end-zoom`);
+                        await showAlert("Session Reset Success", "The active Zoom meeting session has been terminated. You can now try to join again.");
+                        window.location.reload();
+                      } catch (err: any) {
+                        await showAlert("Reset Failed", err.response?.data?.message || "Failed to end the Zoom session.");
+                      } finally {
+                        setResetting(false);
+                      }
+                    }}
+                    className="px-5 py-2 bg-[#c9a84c] hover:bg-[#b0913f] text-black text-xs font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    {resetting ? 'Resetting Zoom Session...' : 'Force Reset Zoom Session'}
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>
