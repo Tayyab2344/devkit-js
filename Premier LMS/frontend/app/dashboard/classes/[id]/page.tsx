@@ -66,6 +66,22 @@ export default function ClassroomPage() {
   const [showExitDialog, setShowExitDialog] = useState(false);
   const [classDetails, setClassDetails] = useState<any>(null);
   const [resetting, setResetting] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(2400); // 40 mins
+  const [isTimerActive, setIsTimerActive] = useState(false);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    if (isTimerActive && timeRemaining > 0) {
+      interval = setInterval(() => {
+        setTimeRemaining((prev) => prev - 1);
+      }, 1000);
+    } else if (timeRemaining === 0) {
+      setIsTimerActive(false);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isTimerActive, timeRemaining]);
   const zoomStartedRef = useRef(false);
   const [isMounted, setIsMounted] = useState(false);
   const [debugLogs, setDebugLogs] = useState<string[]>([]);
@@ -340,6 +356,9 @@ export default function ClassroomPage() {
             console.log('Zoom Connection state changed:', payload.state);
             if (payload.state === 'Closed') {
               handleExit(false);
+            }
+            if (payload.state === 'Connected') {
+              setIsTimerActive(true);
             }
           });
         } catch (evtErr) {
@@ -705,6 +724,36 @@ export default function ClassroomPage() {
           {/* Content info */}
           <div className="flex-1 overflow-y-auto p-4 space-y-5 custom-scroll">
             
+            {/* Session Timer Card */}
+            <div className="bg-[#0b1712] border border-white/5 rounded-xl p-3.5 space-y-2.5 shadow-inner">
+              <h3 className="text-[10px] font-extrabold text-[#c9a84c] uppercase tracking-wider">Session Status</h3>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-400">Zoom Feed</span>
+                <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${isTimerActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 animate-pulse' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}`}>
+                  {isTimerActive ? 'CONNECTED' : 'WAITING'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-400">Time Remaining</span>
+                <span className={`text-xs font-bold font-mono tracking-wider ${
+                  timeRemaining <= 300 && timeRemaining > 0
+                    ? 'text-red-400 animate-pulse bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded' 
+                    : 'text-white'
+                }`}>
+                  {timeRemaining === 0 
+                    ? '00:00' 
+                    : `${Math.floor(timeRemaining / 60).toString().padStart(2, '0')}:${(timeRemaining % 60).toString().padStart(2, '0')}`
+                  }
+                </span>
+              </div>
+              {timeRemaining <= 300 && timeRemaining > 0 && (
+                <p className="text-[9px] text-red-400 leading-snug">⚠️ Warning: Meeting will end in less than 5 minutes due to Zoom free tier limit.</p>
+              )}
+              {timeRemaining === 0 && (
+                <p className="text-[9px] text-red-500 leading-snug font-semibold">❌ Free tier limit reached. Please restart session if needed.</p>
+              )}
+            </div>
+
             {/* Meta info box */}
             <div className="bg-[#0b1712] border border-white/5 rounded-xl p-3.5 space-y-3 shadow-inner">
               <div>
@@ -753,6 +802,11 @@ export default function ClassroomPage() {
                 <li>Write questions in Zoom chat.</li>
                 <li>Remain muted unless asked to speak.</li>
                 <li>Recording material is prohibited.</li>
+                {isAdmin && (
+                  <li className="text-[#c9a84c] font-semibold list-none -ml-4 mt-3 p-3 bg-[#c9a84c]/5 border border-[#c9a84c]/10 rounded-lg leading-snug">
+                    💡 Admit Students: Click the layout/participants icon (top-left) or three-dots (bottom-right) inside the Zoom video widget, open the Participants list, and click "Admit" to let students enter.
+                  </li>
+                )}
               </ul>
             </div>
           </div>
