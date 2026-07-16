@@ -233,7 +233,7 @@ export default function ClassroomPage() {
         // Compile the recording
         const blob = new Blob(chunks, { type: 'video/webm' });
         const url = URL.createObjectURL(blob);
-        
+
         // Trigger auto-download
         const a = document.createElement('a');
         a.href = url;
@@ -379,6 +379,7 @@ export default function ClassroomPage() {
           password: zoomData.zoomPasscode,
           userName: zoomData.userName,
           userEmail: zoomData.userEmail || '',
+          zak: zoomData.zak || undefined,
         });
 
         console.log('ClassroomPage: Join success! Hiding loading screen.');
@@ -426,8 +427,8 @@ export default function ClassroomPage() {
         console.error('ClassroomPage: Error in initClassroom:', err);
         setError(
           err.response?.data?.message ||
-            err.message ||
-            'Unable to join this classroom. Please verify the class status and try again.',
+          err.message ||
+          'Unable to join this classroom. Please verify the class status and try again.',
         );
         setLoading(false);
       }
@@ -477,7 +478,7 @@ export default function ClassroomPage() {
     // 2. Keyboard Interceptor
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'PrintScreen') {
-        try { navigator.clipboard.writeText(''); } catch {}
+        try { navigator.clipboard.writeText(''); } catch { }
         alert('Screenshots are disabled for security reasons.');
         e.preventDefault();
       }
@@ -552,11 +553,12 @@ export default function ClassroomPage() {
 
   return (
     <>
-      <main 
+      <main
         style={{ display: 'flex' }}
         className="fixed inset-0 w-screen h-screen bg-[#060c09] z-50 overflow-hidden flex flex-col font-sans text-white"
       >
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           @media print { body { display: none !important; } }
           
           /* Force Zoom SDK to fill the container */
@@ -588,269 +590,267 @@ export default function ClassroomPage() {
           }
         ` }} />
 
-      {!isAdmin && (
-        <div
-          id="screenshot-blur-overlay"
-          style={{ display: 'none' }}
-          className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[99999] flex flex-col items-center justify-center text-center p-6 text-white"
-        >
-          <div className="w-16 h-16 rounded-full bg-red-950 flex items-center justify-center text-red-500 font-bold text-2xl border border-red-500/30 mb-4">
-            🔒
-          </div>
-          <h2 className="text-xl font-bold text-red-400 mb-2">Screen Protected</h2>
-          <p className="text-sm text-gray-300 max-w-sm">
-            Screenshots and screen recording are strictly restricted on Premier LMS. Keep this window active to continue the class.
-          </p>
-        </div>
-      )}
-
-      {/* Top Header Navigation */}
-      <header className="h-16 border-b border-white/10 bg-[#091410] px-6 flex items-center justify-between shrink-0 z-20">
-        <div className="flex items-center gap-3">
-          <span className="flex h-2.5 w-2.5 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
-          </span>
-          <span className="text-[10px] font-extrabold text-red-500 uppercase tracking-widest bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">LIVE</span>
-          <div className="h-4 w-[1px] bg-white/15" />
-          <h1 className="text-xs md:text-sm font-bold text-white/90 truncate max-w-[240px] md:max-w-md">
-            {classDetails ? `${classDetails.courseName} — ${classDetails.title}` : 'Live Classroom Session'}
-          </h1>
-        </div>
-
-        <div className="flex items-center gap-3">
-          {/* Record Button (Admin Only) */}
-          {isAdmin && (
-            <button
-              onClick={isRecording ? stopRecording : startRecording}
-              className={`flex items-center gap-2 px-3.5 py-1.5 text-[11px] font-extrabold border rounded-lg transition-all duration-200 cursor-pointer ${
-                isRecording
-                  ? 'bg-red-500/10 text-red-400 border-red-500/30 animate-pulse'
-                  : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
-              }`}
-            >
-              <svg className={`w-2.5 h-2.5 ${isRecording ? 'text-red-400' : 'text-red-500'}`} fill="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8" />
-              </svg>
-              {isRecording ? 'Stop Recording' : 'Record Class'}
-            </button>
-          )}
-
-          {/* Exit Button */}
-          <button
-            onClick={() => {
-              if (isAdmin) {
-                setShowExitDialog(true);
-              } else {
-                handleExit(false);
-              }
-            }}
-            className="flex items-center gap-1.5 px-4 py-1.5 text-[11px] font-bold text-white bg-red-650 hover:bg-red-600 rounded-lg shadow-lg shadow-red-900/10 transition-all duration-200 cursor-pointer border border-red-500/15"
+        {!isAdmin && (
+          <div
+            id="screenshot-blur-overlay"
+            style={{ display: 'none' }}
+            className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[99999] flex flex-col items-center justify-center text-center p-6 text-white"
           >
-            Leave Class
-          </button>
-        </div>
-      </header>
+            <div className="w-16 h-16 rounded-full bg-red-950 flex items-center justify-center text-red-500 font-bold text-2xl border border-red-500/30 mb-4">
+              🔒
+            </div>
+            <h2 className="text-xl font-bold text-red-400 mb-2">Screen Protected</h2>
+            <p className="text-sm text-gray-300 max-w-sm">
+              Screenshots and screen recording are strictly restricted on Premier LMS. Keep this window active to continue the class.
+            </p>
+          </div>
+        )}
 
-      {/* Main Grid split */}
-      <div className="flex-1 flex overflow-hidden">
-        
-        {/* Left Area: Zoom Screen */}
-        <div className="flex-1 bg-black relative">
-          <div ref={containerRef} className="w-full h-full bg-[#090f0c] overflow-hidden relative" />
-          
-          {/* Internal Loading Overlay */}
-          {loading && !error && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-950 via-[#07130e] to-black z-10 gap-3">
-              <div className="w-8 h-8 border-3 border-[#c9a84c]/20 border-t-[#c9a84c] rounded-full animate-spin" />
-              <p className="text-xs text-gray-400 font-medium animate-pulse">Establishing secure connection…</p>
-              <div id="debug-logs" style={{ display: 'none' }}>
-                {debugLogs.map((log, index) => (
-                  <div key={index}>{log}</div>
-                ))}
+        {/* Top Header Navigation */}
+        <header className="h-16 border-b border-white/10 bg-[#091410] px-6 flex items-center justify-between shrink-0 z-20">
+          <div className="flex items-center gap-3">
+            <span className="flex h-2.5 w-2.5 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+            </span>
+            <span className="text-[10px] font-extrabold text-red-500 uppercase tracking-widest bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">LIVE</span>
+            <div className="h-4 w-[1px] bg-white/15" />
+            <h1 className="text-xs md:text-sm font-bold text-white/90 truncate max-w-[240px] md:max-w-md">
+              {classDetails ? `${classDetails.courseName} — ${classDetails.title}` : 'Live Classroom Session'}
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* Record Button (Admin Only) */}
+            {isAdmin && (
+              <button
+                onClick={isRecording ? stopRecording : startRecording}
+                className={`flex items-center gap-2 px-3.5 py-1.5 text-[11px] font-extrabold border rounded-lg transition-all duration-200 cursor-pointer ${isRecording
+                    ? 'bg-red-500/10 text-red-400 border-red-500/30 animate-pulse'
+                    : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
+                  }`}
+              >
+                <svg className={`w-2.5 h-2.5 ${isRecording ? 'text-red-400' : 'text-red-500'}`} fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="8" />
+                </svg>
+                {isRecording ? 'Stop Recording' : 'Record Class'}
+              </button>
+            )}
+
+            {/* Exit Button */}
+            <button
+              onClick={() => {
+                if (isAdmin) {
+                  setShowExitDialog(true);
+                } else {
+                  handleExit(false);
+                }
+              }}
+              className="flex items-center gap-1.5 px-4 py-1.5 text-[11px] font-bold text-white bg-red-650 hover:bg-red-600 rounded-lg shadow-lg shadow-red-900/10 transition-all duration-200 cursor-pointer border border-red-500/15"
+            >
+              Leave Class
+            </button>
+          </div>
+        </header>
+
+        {/* Main Grid split */}
+        <div className="flex-1 flex overflow-hidden">
+
+          {/* Left Area: Zoom Screen */}
+          <div className="flex-1 bg-black relative">
+            <div ref={containerRef} className="w-full h-full bg-[#090f0c] overflow-hidden relative" />
+
+            {/* Internal Loading Overlay */}
+            {loading && !error && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-950 via-[#07130e] to-black z-10 gap-3">
+                <div className="w-8 h-8 border-3 border-[#c9a84c]/20 border-t-[#c9a84c] rounded-full animate-spin" />
+                <p className="text-xs text-gray-400 font-medium animate-pulse">Establishing secure connection…</p>
+                <div id="debug-logs" style={{ display: 'none' }}>
+                  {debugLogs.map((log, index) => (
+                    <div key={index}>{log}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Internal Error Overlay */}
+            {error && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10 gap-4 bg-[#070e0c]/98">
+                <div className="w-12 h-12 rounded-full bg-red-950/50 flex items-center justify-center text-red-500 font-bold text-xl border border-red-500/25">
+                  !
+                </div>
+                <div className="space-y-1.5 max-w-sm">
+                  <h3 className="font-bold text-sm text-red-400">Classroom Connection Failed</h3>
+                  <p className="text-xs text-gray-400">{error}</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => handleExit(false)}
+                    className="px-5 py-2 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold rounded-lg transition-colors cursor-pointer border border-white/5"
+                  >
+                    Back to Dashboard
+                  </button>
+                  {isAdmin && (
+                    <button
+                      disabled={resetting}
+                      onClick={async () => {
+                        setResetting(true);
+                        try {
+                          await api.post(`/classes/${id}/end-zoom`);
+                          await showAlert("Session Reset Success", "The active Zoom meeting session has been terminated. You can now try to join again.");
+                          window.location.reload();
+                        } catch (err: any) {
+                          await showAlert("Reset Failed", err.response?.data?.message || "Failed to end the Zoom session.");
+                        } finally {
+                          setResetting(false);
+                        }
+                      }}
+                      className="px-5 py-2 bg-[#c9a84c] hover:bg-[#b0913f] text-black text-xs font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                    >
+                      {resetting ? 'Resetting Zoom Session...' : 'Force Reset Zoom Session'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Area: Dashboard details */}
+          <aside className="w-[280px] shrink-0 border-l border-white/10 bg-[#070f0b] flex flex-col hidden lg:flex">
+            {/* Header tab */}
+            <div className="p-4 border-b border-white/10 bg-[#091410]/50 shrink-0">
+              <h2 className="text-[10px] font-extrabold text-[#c9a84c] uppercase tracking-widest">Room Information</h2>
+            </div>
+
+            {/* Content info */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-5 custom-scroll">
+
+              {/* Session Timer Card */}
+              <div className="bg-[#0b1712] border border-white/5 rounded-xl p-3.5 space-y-2.5 shadow-inner">
+                <h3 className="text-[10px] font-extrabold text-[#c9a84c] uppercase tracking-wider">Session Status</h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-gray-400">Zoom Feed</span>
+                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${isTimerActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 animate-pulse' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}`}>
+                    {isTimerActive ? 'CONNECTED' : 'WAITING'}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-gray-400">Time Remaining</span>
+                  <span className={`text-xs font-bold font-mono tracking-wider ${timeRemaining <= 300 && timeRemaining > 0
+                      ? 'text-red-400 animate-pulse bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded'
+                      : 'text-white'
+                    }`}>
+                    {timeRemaining === 0
+                      ? '00:00'
+                      : `${Math.floor(timeRemaining / 60).toString().padStart(2, '0')}:${(timeRemaining % 60).toString().padStart(2, '0')}`
+                    }
+                  </span>
+                </div>
+                {timeRemaining <= 300 && timeRemaining > 0 && (
+                  <p className="text-[9px] text-red-400 leading-snug">⚠️ Warning: Meeting will end in less than 5 minutes due to Zoom free tier limit.</p>
+                )}
+                {timeRemaining === 0 && (
+                  <p className="text-[9px] text-red-500 leading-snug font-semibold">❌ Free tier limit reached. Please restart session if needed.</p>
+                )}
+              </div>
+
+              {/* Meta info box */}
+              <div className="bg-[#0b1712] border border-white/5 rounded-xl p-3.5 space-y-3 shadow-inner">
+                <div>
+                  <span className="text-[9px] uppercase font-bold text-gray-500">Course Unit</span>
+                  <p className="text-xs font-semibold text-white/90 mt-0.5">{classDetails?.courseName || 'Loading course...'}</p>
+                </div>
+                <div>
+                  <span className="text-[9px] uppercase font-bold text-gray-500">Topic Title</span>
+                  <p className="text-xs text-gray-300 mt-0.5 leading-relaxed">{classDetails?.title || 'Loading title...'}</p>
+                </div>
+                <div>
+                  <span className="text-[9px] uppercase font-bold text-gray-500">Assigned Batch</span>
+                  <p className="text-xs text-gray-300 mt-0.5">{classDetails?.batchName || 'Default Batch'}</p>
+                </div>
+              </div>
+
+              {/* Rules card */}
+              <div className="bg-[#0b1712] border border-white/5 rounded-xl p-3.5 space-y-3">
+                <h3 className="text-[10px] font-extrabold text-white/70 uppercase tracking-wider">Classroom Policies</h3>
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-400">Audio Controls</span>
+                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${classDetails?.allowStudentMic ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                      {classDetails?.allowStudentMic ? 'MUTE ON ENTRY' : 'MUTED'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-400">Video Feed</span>
+                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${classDetails?.allowStudentCamera ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                      {classDetails?.allowStudentCamera ? 'ENABLED' : 'MUTED'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-400">Screensharing</span>
+                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${classDetails?.allowStudentScreenshare ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                      {classDetails?.allowStudentScreenshare ? 'ENABLED' : 'RESTRICTED'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Instructions */}
+              <div className="space-y-1.5 p-1">
+                <h4 className="text-[9px] font-extrabold text-[#c9a84c] uppercase tracking-wider">Guidelines</h4>
+                <ul className="text-[11px] text-gray-400 space-y-2 pl-4 list-disc leading-relaxed">
+                  <li>Write questions in Zoom chat.</li>
+                  <li>Remain muted unless asked to speak.</li>
+                  <li>Recording material is prohibited.</li>
+                  {isAdmin && (
+                    <li className="text-[#c9a84c] font-semibold list-none -ml-4 mt-3 p-3 bg-[#c9a84c]/5 border border-[#c9a84c]/10 rounded-lg leading-snug">
+                      💡 Admit Students: Click the layout/participants icon (top-left) or three-dots (bottom-right) inside the Zoom video widget, open the Participants list, and click "Admit" to let students enter.
+                    </li>
+                  )}
+                </ul>
               </div>
             </div>
-          )}
 
-          {/* Internal Error Overlay */}
-          {error && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10 gap-4 bg-[#070e0c]/98">
-              <div className="w-12 h-12 rounded-full bg-red-950/50 flex items-center justify-center text-red-500 font-bold text-xl border border-red-500/25">
-                !
-              </div>
-              <div className="space-y-1.5 max-w-sm">
-                <h3 className="font-bold text-sm text-red-400">Classroom Connection Failed</h3>
-                <p className="text-xs text-gray-400">{error}</p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3">
+            {/* Secure label */}
+            <div className="p-3 border-t border-white/5 bg-[#050b08] text-center shrink-0">
+              <span className="text-[9px] text-gray-500 font-medium tracking-wide">Secure LMS Classroom Environment</span>
+            </div>
+          </aside>
+        </div>
+
+        {/* Exit dialog */}
+        {showExitDialog && isAdmin && (
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/75 backdrop-blur-sm">
+            <div className="relative bg-[#0b1411] border border-white/10 p-6 rounded-xl w-full max-w-sm mx-4 text-white shadow-2xl space-y-4">
+              <h3 className="font-bold text-sm text-red-400 flex items-center gap-2 uppercase tracking-wider">
+                ⚠️ Close Lecture Session
+              </h3>
+              <p className="text-xs text-gray-300 leading-relaxed">
+                Do you want to end this live class for all students (completing the course lecture), or just temporarily leave?
+              </p>
+              <div className="flex flex-col gap-2 pt-2 border-t border-white/5">
+                <button
+                  onClick={() => handleExit(true)}
+                  className="px-4 py-2 bg-red-650 hover:bg-red-600 text-white font-bold rounded-lg text-xs transition-colors cursor-pointer"
+                >
+                  End Class for All
+                </button>
                 <button
                   onClick={() => handleExit(false)}
-                  className="px-5 py-2 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold rounded-lg transition-colors cursor-pointer border border-white/5"
+                  className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white font-bold rounded-lg text-xs transition-colors cursor-pointer"
                 >
-                  Back to Dashboard
+                  Just Leave Room
                 </button>
-                {isAdmin && (
-                  <button
-                    disabled={resetting}
-                    onClick={async () => {
-                      setResetting(true);
-                      try {
-                        await api.post(`/classes/${id}/end-zoom`);
-                        await showAlert("Session Reset Success", "The active Zoom meeting session has been terminated. You can now try to join again.");
-                        window.location.reload();
-                      } catch (err: any) {
-                        await showAlert("Reset Failed", err.response?.data?.message || "Failed to end the Zoom session.");
-                      } finally {
-                        setResetting(false);
-                      }
-                    }}
-                    className="px-5 py-2 bg-[#c9a84c] hover:bg-[#b0913f] text-black text-xs font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
-                  >
-                    {resetting ? 'Resetting Zoom Session...' : 'Force Reset Zoom Session'}
-                  </button>
-                )}
+                <button
+                  onClick={() => setShowExitDialog(false)}
+                  className="px-4 py-2 bg-transparent border border-white/10 hover:bg-white/5 text-gray-300 font-bold rounded-lg text-xs transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
               </div>
-            </div>
-          )}
-        </div>
-
-        {/* Right Area: Dashboard details */}
-        <aside className="w-[280px] shrink-0 border-l border-white/10 bg-[#070f0b] flex flex-col hidden lg:flex">
-          {/* Header tab */}
-          <div className="p-4 border-b border-white/10 bg-[#091410]/50 shrink-0">
-            <h2 className="text-[10px] font-extrabold text-[#c9a84c] uppercase tracking-widest">Room Information</h2>
-          </div>
-
-          {/* Content info */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-5 custom-scroll">
-            
-            {/* Session Timer Card */}
-            <div className="bg-[#0b1712] border border-white/5 rounded-xl p-3.5 space-y-2.5 shadow-inner">
-              <h3 className="text-[10px] font-extrabold text-[#c9a84c] uppercase tracking-wider">Session Status</h3>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400">Zoom Feed</span>
-                <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${isTimerActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 animate-pulse' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}`}>
-                  {isTimerActive ? 'CONNECTED' : 'WAITING'}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400">Time Remaining</span>
-                <span className={`text-xs font-bold font-mono tracking-wider ${
-                  timeRemaining <= 300 && timeRemaining > 0
-                    ? 'text-red-400 animate-pulse bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded' 
-                    : 'text-white'
-                }`}>
-                  {timeRemaining === 0 
-                    ? '00:00' 
-                    : `${Math.floor(timeRemaining / 60).toString().padStart(2, '0')}:${(timeRemaining % 60).toString().padStart(2, '0')}`
-                  }
-                </span>
-              </div>
-              {timeRemaining <= 300 && timeRemaining > 0 && (
-                <p className="text-[9px] text-red-400 leading-snug">⚠️ Warning: Meeting will end in less than 5 minutes due to Zoom free tier limit.</p>
-              )}
-              {timeRemaining === 0 && (
-                <p className="text-[9px] text-red-500 leading-snug font-semibold">❌ Free tier limit reached. Please restart session if needed.</p>
-              )}
-            </div>
-
-            {/* Meta info box */}
-            <div className="bg-[#0b1712] border border-white/5 rounded-xl p-3.5 space-y-3 shadow-inner">
-              <div>
-                <span className="text-[9px] uppercase font-bold text-gray-500">Course Unit</span>
-                <p className="text-xs font-semibold text-white/90 mt-0.5">{classDetails?.courseName || 'Loading course...'}</p>
-              </div>
-              <div>
-                <span className="text-[9px] uppercase font-bold text-gray-500">Topic Title</span>
-                <p className="text-xs text-gray-300 mt-0.5 leading-relaxed">{classDetails?.title || 'Loading title...'}</p>
-              </div>
-              <div>
-                <span className="text-[9px] uppercase font-bold text-gray-500">Assigned Batch</span>
-                <p className="text-xs text-gray-300 mt-0.5">{classDetails?.batchName || 'Default Batch'}</p>
-              </div>
-            </div>
-
-            {/* Rules card */}
-            <div className="bg-[#0b1712] border border-white/5 rounded-xl p-3.5 space-y-3">
-              <h3 className="text-[10px] font-extrabold text-white/70 uppercase tracking-wider">Classroom Policies</h3>
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Audio Controls</span>
-                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${classDetails?.allowStudentMic ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-                    {classDetails?.allowStudentMic ? 'MUTE ON ENTRY' : 'MUTED'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Video Feed</span>
-                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${classDetails?.allowStudentCamera ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-                    {classDetails?.allowStudentCamera ? 'ENABLED' : 'MUTED'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Screensharing</span>
-                  <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${classDetails?.allowStudentScreenshare ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-                    {classDetails?.allowStudentScreenshare ? 'ENABLED' : 'RESTRICTED'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Instructions */}
-            <div className="space-y-1.5 p-1">
-              <h4 className="text-[9px] font-extrabold text-[#c9a84c] uppercase tracking-wider">Guidelines</h4>
-              <ul className="text-[11px] text-gray-400 space-y-2 pl-4 list-disc leading-relaxed">
-                <li>Write questions in Zoom chat.</li>
-                <li>Remain muted unless asked to speak.</li>
-                <li>Recording material is prohibited.</li>
-                {isAdmin && (
-                  <li className="text-[#c9a84c] font-semibold list-none -ml-4 mt-3 p-3 bg-[#c9a84c]/5 border border-[#c9a84c]/10 rounded-lg leading-snug">
-                    💡 Admit Students: Click the layout/participants icon (top-left) or three-dots (bottom-right) inside the Zoom video widget, open the Participants list, and click "Admit" to let students enter.
-                  </li>
-                )}
-              </ul>
             </div>
           </div>
-
-          {/* Secure label */}
-          <div className="p-3 border-t border-white/5 bg-[#050b08] text-center shrink-0">
-            <span className="text-[9px] text-gray-500 font-medium tracking-wide">Secure LMS Classroom Environment</span>
-          </div>
-        </aside>
-      </div>
-
-      {/* Exit dialog */}
-      {showExitDialog && isAdmin && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/75 backdrop-blur-sm">
-          <div className="relative bg-[#0b1411] border border-white/10 p-6 rounded-xl w-full max-w-sm mx-4 text-white shadow-2xl space-y-4">
-            <h3 className="font-bold text-sm text-red-400 flex items-center gap-2 uppercase tracking-wider">
-              ⚠️ Close Lecture Session
-            </h3>
-            <p className="text-xs text-gray-300 leading-relaxed">
-              Do you want to end this live class for all students (completing the course lecture), or just temporarily leave?
-            </p>
-            <div className="flex flex-col gap-2 pt-2 border-t border-white/5">
-              <button
-                onClick={() => handleExit(true)}
-                className="px-4 py-2 bg-red-650 hover:bg-red-600 text-white font-bold rounded-lg text-xs transition-colors cursor-pointer"
-              >
-                End Class for All
-              </button>
-              <button
-                onClick={() => handleExit(false)}
-                className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white font-bold rounded-lg text-xs transition-colors cursor-pointer"
-              >
-                Just Leave Room
-              </button>
-              <button
-                onClick={() => setShowExitDialog(false)}
-                className="px-4 py-2 bg-transparent border border-white/10 hover:bg-white/5 text-gray-300 font-bold rounded-lg text-xs transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+        )}
       </main>
     </>
   );
