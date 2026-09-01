@@ -59,7 +59,7 @@ export default function CompanyStorefrontPage() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <Link href="/" className="hover:text-blue-600 transition-colors">Marketplace</Link>
+          <Link href="/" className="hover:text-amber-600 transition-colors">Marketplace</Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <span className="text-slate-900 font-bold">{company.name}</span>
         </nav>
@@ -114,7 +114,7 @@ export default function CompanyStorefrontPage() {
                   <span className="text-[11px] text-slate-400">({company.review_count})</span>
                 </div>
                 <div className="flex items-center gap-1 text-slate-500">
-                  <Package className="w-4 h-4 text-blue-600" />
+                  <Package className="w-4 h-4 text-amber-600" />
                   <span>{company.product_count} Products</span>
                 </div>
               </div>

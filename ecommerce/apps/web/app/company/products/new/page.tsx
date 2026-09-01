@@ -357,7 +357,7 @@ export default function NewProductPage() {
         {/* Section 1: Product Type */}
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Layers className="w-5 h-5 text-blue-600" />
+            <Layers className="w-5 h-5 text-amber-600" />
             <span>1. Select Product Type</span>
           </h2>
 
@@ -366,7 +366,7 @@ export default function NewProductPage() {
               onClick={() => setForm((prev) => ({ ...prev, product_type: "SIMPLE" }))}
               className={`p-5 rounded-2xl border-2 cursor-pointer transition-all ${
                 form.product_type === "SIMPLE"
-                  ? "border-blue-600 bg-blue-50/50 ring-2 ring-blue-600/20"
+                  ? "border-amber-500 bg-amber-50/50 ring-2 ring-amber-500/20"
                   : "border-slate-200 hover:border-slate-300 bg-white"
               }`}
             >
@@ -391,7 +391,7 @@ export default function NewProductPage() {
         {/* Section 2: Basic Information */}
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-blue-600" />
+            <FileText className="w-5 h-5 text-amber-600" />
             <span>2. Basic Information</span>
           </h2>
 
@@ -408,7 +408,7 @@ export default function NewProductPage() {
                 className={`w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-slate-900 text-sm focus:bg-white focus:outline-none ${
                   fieldErrors.name
                     ? "border-rose-500 bg-rose-50/50 text-rose-900 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
-                    : "border-slate-200 focus:border-blue-600"
+                    : "border-slate-200 focus:border-amber-500"
                 }`}
               />
               {fieldErrors.name && (
@@ -432,7 +432,7 @@ export default function NewProductPage() {
                 className={`w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-slate-900 font-mono text-xs focus:bg-white focus:outline-none ${
                   fieldErrors.slug
                     ? "border-rose-500 bg-rose-50/50 text-rose-900"
-                    : "border-slate-200 focus:border-blue-600"
+                    : "border-slate-200 focus:border-amber-500"
                 }`}
               />
               {fieldErrors.slug && (
@@ -460,7 +460,7 @@ export default function NewProductPage() {
                 <button
                   type="button"
                   onClick={() => setCategoryModalOpen(true)}
-                  className="px-4 py-2.5 bg-blue-600 text-white font-bold rounded-xl shadow-2xs hover:bg-blue-700 cursor-pointer"
+                  className="px-4 py-2.5 bg-amber-500 text-slate-950 font-black rounded-xl shadow-2xs hover:bg-amber-600 cursor-pointer"
                 >
                   Browse
                 </button>
@@ -480,7 +480,7 @@ export default function NewProductPage() {
                 value={form.brand}
                 onChange={(e) => setForm((prev) => ({ ...prev, brand: e.target.value }))}
                 placeholder="e.g. Apple, Nike, Samsung"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
 
@@ -492,7 +492,7 @@ export default function NewProductPage() {
                 value={form.short_description}
                 onChange={(e) => setForm((prev) => ({ ...prev, short_description: e.target.value }))}
                 placeholder="Brief key highlights displayed next to price..."
-                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
 
@@ -521,7 +521,7 @@ export default function NewProductPage() {
                 className={`w-full p-3 bg-slate-50 border rounded-xl text-slate-900 focus:bg-white focus:outline-none ${
                   fieldErrors.description
                     ? "border-rose-500 bg-rose-50/50 text-rose-900 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
-                    : "border-slate-200 focus:border-blue-600"
+                    : "border-slate-200 focus:border-amber-500"
                 }`}
               />
               {fieldErrors.description && (
@@ -536,7 +536,7 @@ export default function NewProductPage() {
         {/* Section 3: Product Media */}
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-blue-600" />
+            <ImageIcon className="w-5 h-5 text-amber-600" />
             <span>3. Product Media & Images</span>
           </h2>
           <ProductMediaManager
@@ -693,7 +693,7 @@ export default function NewProductPage() {
         {/* Section 5: Inventory */}
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Boxes className="w-5 h-5 text-blue-600" />
+            <Boxes className="w-5 h-5 text-amber-600" />
             <span>5. Inventory & Stock Rules</span>
           </h2>
 
@@ -712,7 +712,7 @@ export default function NewProductPage() {
                 className={`w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-slate-900 font-mono font-bold focus:bg-white focus:outline-none ${
                   fieldErrors.sku
                     ? "border-rose-500 bg-rose-50/50 text-rose-900 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
-                    : "border-slate-200 focus:border-blue-600"
+                    : "border-slate-200 focus:border-amber-500"
                 }`}
               />
               {fieldErrors.sku && (
@@ -736,7 +736,7 @@ export default function NewProductPage() {
                 className={`w-full px-3.5 py-2.5 bg-slate-50 border rounded-xl text-slate-900 font-bold focus:bg-white focus:outline-none ${
                   fieldErrors.stock
                     ? "border-rose-500 bg-rose-50/50 text-rose-900 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
-                    : "border-slate-200 focus:border-blue-600"
+                    : "border-slate-200 focus:border-amber-500"
                 }`}
               />
               {fieldErrors.stock && (
@@ -754,7 +754,7 @@ export default function NewProductPage() {
                 onChange={(e) =>
                   setForm((prev) => ({ ...prev, low_stock_threshold: parseInt(e.target.value || "5", 10) }))
                 }
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
@@ -781,7 +781,7 @@ export default function NewProductPage() {
         {/* Section 7: Shipping */}
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Truck className="w-5 h-5 text-blue-600" />
+            <Truck className="w-5 h-5 text-amber-600" />
             <span>7. Shipping & Dimensions</span>
           </h2>
 
@@ -840,7 +840,7 @@ export default function NewProductPage() {
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Tag className="w-5 h-5 text-blue-600" />
+              <Tag className="w-5 h-5 text-amber-600" />
               <span>8. Product Search Tags</span>
             </h2>
             <button
@@ -859,7 +859,7 @@ export default function NewProductPage() {
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
               placeholder="Add product tag (e.g. wireless, earbuds)..."
-              className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+              className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
             />
             <button
               type="submit"
@@ -873,10 +873,10 @@ export default function NewProductPage() {
             {form.tags.map((t) => (
               <span
                 key={t}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200/80"
               >
                 <span>#{t}</span>
-                <button type="button" onClick={() => handleRemoveTag(t)} className="text-blue-400 hover:text-blue-900 cursor-pointer">
+                <button type="button" onClick={() => handleRemoveTag(t)} className="text-amber-700 hover:text-slate-950 cursor-pointer">
                   <Trash2 className="w-3 h-3" />
                 </button>
               </span>
@@ -887,7 +887,7 @@ export default function NewProductPage() {
         {/* Section 10: SEO Preview */}
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Search className="w-5 h-5 text-blue-600" />
+            <Search className="w-5 h-5 text-amber-600" />
             <span>10. Search Engine Optimization (SEO)</span>
           </h2>
           <ProductSEOPreview

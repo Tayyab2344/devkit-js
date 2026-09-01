@@ -12,8 +12,12 @@ export interface CategoryItem {
   description?: string;
   image_url?: string;
   parent_id?: string;
+  company_id?: string;
   is_active: boolean;
   sort_order: number;
+  product_count?: number;
+  created_at?: string;
+  updated_at?: string;
   children?: CategoryItem[];
 }
 

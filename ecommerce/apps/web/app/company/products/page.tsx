@@ -231,9 +231,9 @@ export default function CompanyProductsPage() {
           </button>
           <Link
             href="/company/products/new"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-2xs"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black text-slate-950 bg-amber-500 hover:bg-amber-600 transition-colors shadow-2xs"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4 text-slate-950" />
             <span>Add Product</span>
           </Link>
         </div>
@@ -250,7 +250,7 @@ export default function CompanyProductsPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search products by name or SKU..."
-              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
             />
           </div>
 
@@ -274,10 +274,10 @@ export default function CompanyProductsPage() {
 
         {/* Bulk Action Bar */}
         {selectedIds.length > 0 && (
-          <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between text-xs text-blue-900">
+          <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between text-xs text-amber-950">
             <span className="font-semibold">{selectedIds.length} products selected</span>
             <div className="flex items-center gap-2">
-              <button className="px-3 py-1 bg-white border border-blue-300 rounded-lg font-medium hover:bg-blue-100 transition-colors">
+              <button className="px-3 py-1 bg-white border border-amber-300 rounded-lg font-medium hover:bg-amber-100 transition-colors">
                 Archive Selected
               </button>
               <button
@@ -300,7 +300,7 @@ export default function CompanyProductsPage() {
                 <th className="py-3 px-4 w-10">
                   <button onClick={toggleSelectAll} className="text-slate-400 hover:text-slate-600">
                     {selectedIds.length === products.length && products.length > 0 ? (
-                      <CheckSquare className="w-4 h-4 text-blue-600" />
+                      <CheckSquare className="w-4 h-4 text-amber-600" />
                     ) : (
                       <Square className="w-4 h-4" />
                     )}
@@ -322,7 +322,7 @@ export default function CompanyProductsPage() {
                     <td className="py-3 px-4">
                       <button onClick={() => toggleSelect(p.id)} className="text-slate-400 hover:text-slate-600">
                         {selectedIds.includes(p.id) ? (
-                          <CheckSquare className="w-4 h-4 text-blue-600" />
+                          <CheckSquare className="w-4 h-4 text-amber-600" />
                         ) : (
                           <Square className="w-4 h-4" />
                         )}
@@ -380,7 +380,7 @@ export default function CompanyProductsPage() {
                         {/* Quick View Details Modal */}
                         <button
                           onClick={() => handleOpenDetailModal(p)}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-500 hover:text-amber-700 hover:bg-amber-50 transition-colors"
                           title="View product details"
                         >
                           <Eye className="w-4 h-4" />
@@ -388,7 +388,7 @@ export default function CompanyProductsPage() {
                         {/* Edit Link */}
                         <Link
                           href={`/company/products/${p.id}/edit`}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                          className="p-1.5 rounded-lg text-slate-500 hover:text-amber-700 hover:bg-amber-50 transition-colors"
                           title="Edit product details"
                         >
                           <Edit className="w-4 h-4" />
@@ -425,7 +425,7 @@ export default function CompanyProductsPage() {
             {/* Modal Header */}
             <div className="p-6 bg-slate-900 text-white flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-blue-600/30 rounded-2xl border border-blue-400/30 text-blue-400">
+                <div className="p-2.5 bg-amber-500/20 rounded-2xl border border-amber-500/30 text-amber-400">
                   <Package className="w-6 h-6" />
                 </div>
                 <div>
@@ -452,7 +452,7 @@ export default function CompanyProductsPage() {
               {/* Product Gallery */}
               <div className="space-y-2">
                 <h4 className="font-bold text-slate-900 flex items-center gap-1.5">
-                  <Tag className="w-4 h-4 text-blue-600" />
+                  <Tag className="w-4 h-4 text-amber-600" />
                   <span>Media Gallery</span>
                 </h4>
                 {(() => {
@@ -497,7 +497,7 @@ export default function CompanyProductsPage() {
                 </div>
                 <div>
                   <span className="block text-[11px] text-slate-500 font-medium">Total Sales</span>
-                  <span className="text-sm font-bold text-blue-600">{viewProduct.sales_count || 0} orders</span>
+                  <span className="text-sm font-bold text-amber-700">{viewProduct.sales_count || 0} orders</span>
                 </div>
               </div>
 
@@ -523,9 +523,9 @@ export default function CompanyProductsPage() {
               <div className="flex items-center gap-2">
                 <Link
                   href={`/company/products/${viewProduct.id}/edit`}
-                  className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors flex items-center gap-1.5 text-xs shadow-2xs"
+                  className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded-xl transition-colors flex items-center gap-1.5 text-xs shadow-2xs"
                 >
-                  <Edit className="w-3.5 h-3.5" />
+                  <Edit className="w-3.5 h-3.5 text-slate-950" />
                   <span>Edit Product</span>
                 </Link>
                 <button

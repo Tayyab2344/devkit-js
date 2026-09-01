@@ -68,13 +68,13 @@ export const CompanyNotificationCenter: React.FC<CompanyNotificationCenterProps>
           {/* Header */}
           <div className="p-4 border-b border-slate-200 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Bell className="w-5 h-5 text-blue-600" />
+              <Bell className="w-5 h-5 text-amber-600" />
               <h2 className="font-bold text-slate-900 text-sm">Notifications</h2>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={markAllRead}
-                className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+                className="text-xs font-bold text-amber-700 hover:text-amber-800"
               >
                 Mark all read
               </button>
@@ -89,7 +89,7 @@ export const CompanyNotificationCenter: React.FC<CompanyNotificationCenterProps>
             <button
               onClick={() => setTab("all")}
               className={`px-3 py-1 rounded-full font-semibold transition-colors ${
-                tab === "all" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-200"
+                tab === "all" ? "bg-amber-500 text-slate-950 font-black" : "text-slate-600 hover:bg-slate-200"
               }`}
             >
               All
@@ -97,7 +97,7 @@ export const CompanyNotificationCenter: React.FC<CompanyNotificationCenterProps>
             <button
               onClick={() => setTab("order")}
               className={`px-3 py-1 rounded-full font-semibold transition-colors ${
-                tab === "order" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-200"
+                tab === "order" ? "bg-amber-500 text-slate-950 font-black" : "text-slate-600 hover:bg-slate-200"
               }`}
             >
               Orders
@@ -105,7 +105,7 @@ export const CompanyNotificationCenter: React.FC<CompanyNotificationCenterProps>
             <button
               onClick={() => setTab("inventory")}
               className={`px-3 py-1 rounded-full font-semibold transition-colors ${
-                tab === "inventory" ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-200"
+                tab === "inventory" ? "bg-amber-500 text-slate-950 font-black" : "text-slate-600 hover:bg-slate-200"
               }`}
             >
               Inventory
@@ -118,10 +118,10 @@ export const CompanyNotificationCenter: React.FC<CompanyNotificationCenterProps>
               <div
                 key={item.id}
                 className={`p-3 rounded-xl transition-colors flex items-start gap-3 ${
-                  item.read ? "bg-white" : "bg-blue-50/50"
+                  item.read ? "bg-white" : "bg-amber-50/50"
                 }`}
               >
-                <div className="p-2 rounded-lg bg-blue-100 text-blue-600 shrink-0">
+                <div className="p-2 rounded-lg bg-amber-100 text-amber-900 shrink-0">
                   {item.category === "inventory" ? (
                     <Boxes className="w-4 h-4" />
                   ) : item.category === "order" ? (

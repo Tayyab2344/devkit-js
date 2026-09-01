@@ -116,7 +116,7 @@ export default function Home() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl bg-slate-900 overflow-hidden border border-slate-800 text-white p-8 sm:p-12 grid grid-cols-1 md:grid-cols-12 items-center gap-8 shadow-xl">
             <div className="md:col-span-7 space-y-4">
-              <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-600/90 text-white border border-blue-400/30">
+              <span className="px-3.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-amber-500 text-slate-950 border border-amber-300/50">
                 LIMITED DEALS
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
@@ -128,10 +128,10 @@ export default function Home() {
               <div className="pt-2">
                 <Link
                   href="/search?sort=deals"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs sm:text-sm shadow-md transition-all"
                 >
                   <span>Explore Deals</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 text-slate-950" />
                 </Link>
               </div>
             </div>

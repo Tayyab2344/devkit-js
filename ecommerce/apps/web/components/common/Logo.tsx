@@ -50,7 +50,7 @@ export const Logo: React.FC<LogoProps> = ({
       {/* Brand Text */}
       {showText && variant === "full" && (
         <div className="flex flex-col leading-none">
-          <span className={`font-extrabold tracking-tight text-current ${textClassName || "text-lg"}`}>
+          <span className={`font-bold tracking-tight text-current ${textClassName || "text-lg"}`}>
             digi<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-400 to-amber-500">Bazar</span>
           </span>
           <span className="text-[9px] uppercase tracking-wider font-semibold text-slate-400 mt-0.5">

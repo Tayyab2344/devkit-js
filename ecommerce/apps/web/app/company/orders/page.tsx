@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CompanyShell } from "@/components/company/CompanyShell";
@@ -18,7 +18,7 @@ import {
   XCircle,
 } from "lucide-react";
 
-export default function CompanyOrdersPage() {
+function CompanyOrdersContent() {
   const searchParams = useSearchParams();
   const statusParam = searchParams.get("status");
 
@@ -85,7 +85,7 @@ export default function CompanyOrdersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search order ID, customer name, email..."
-              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
             />
           </div>
 
@@ -97,7 +97,7 @@ export default function CompanyOrdersPage() {
                 onClick={() => setActiveTab(st)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold uppercase transition-all ${
                   activeTab === st
-                    ? "bg-blue-600 text-white shadow-2xs"
+                    ? "bg-amber-500 text-slate-950 font-black shadow-2xs"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
@@ -143,7 +143,7 @@ export default function CompanyOrdersPage() {
                       </span>
                     </td>
                     <td className="py-3 px-4">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-blue-50 text-blue-700 border border-blue-200">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-50 text-amber-900 border border-amber-200/80">
                         {o.order_status}
                       </span>
                     </td>
@@ -151,7 +151,7 @@ export default function CompanyOrdersPage() {
                     <td className="py-3 px-4 text-right">
                       <Link
                         href={`/company/orders/${o.id}`}
-                        className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 font-bold hover:bg-blue-100 transition-colors inline-flex items-center gap-1"
+                        className="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-800 font-bold hover:bg-amber-100 transition-colors inline-flex items-center gap-1 border border-amber-200/60"
                       >
                         <Eye className="w-3.5 h-3.5" />
                         <span>Manage</span>
@@ -171,5 +171,13 @@ export default function CompanyOrdersPage() {
         </div>
       </div>
     </CompanyShell>
+  );
+}
+
+export default function CompanyOrdersPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-xs text-slate-400">Loading orders...</div>}>
+      <CompanyOrdersContent />
+    </Suspense>
   );
 }

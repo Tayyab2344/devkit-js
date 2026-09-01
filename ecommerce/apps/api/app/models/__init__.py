@@ -10,6 +10,9 @@ from app.models.enums import (
     PaymentStatus,
     PayoutStatus,
     DiscountType,
+    DiscountScope,
+    CommissionType,
+    AttributionStatus,
     InfluencerStatus,
     CampaignStatus,
     ReportStatus,
@@ -38,8 +41,8 @@ from app.models.inventory_movement import InventoryMovement
 from app.models.order import Order, OrderStatusHistory
 from app.models.payment import Payment, Refund
 from app.models.payout import Payout
-from app.models.coupon import Coupon
-from app.models.influencer import Influencer, Campaign
+from app.models.coupon import Coupon, CouponProduct, CouponCategory, CouponUsage
+from app.models.influencer import Influencer, Campaign, CampaignProduct, CampaignCategory, CampaignAttribution
 from app.models.review import Review
 from app.models.report import Report
 from app.models.cms import CMSPage, CMSSection, Banner
@@ -58,6 +61,9 @@ __all__ = [
     "PaymentStatus",
     "PayoutStatus",
     "DiscountType",
+    "DiscountScope",
+    "CommissionType",
+    "AttributionStatus",
     "InfluencerStatus",
     "CampaignStatus",
     "ReportStatus",
@@ -86,8 +92,14 @@ __all__ = [
     "Refund",
     "Payout",
     "Coupon",
+    "CouponProduct",
+    "CouponCategory",
+    "CouponUsage",
     "Influencer",
     "Campaign",
+    "CampaignProduct",
+    "CampaignCategory",
+    "CampaignAttribution",
     "Review",
     "Report",
     "CMSPage",

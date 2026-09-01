@@ -42,7 +42,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     <div className="h-screen flex overflow-hidden bg-[var(--background)]">
       {/* Desktop Sidebar */}
       <aside
-        className="hidden lg:flex flex-col border-r border-[var(--border-primary)] bg-[var(--surface-primary)] transition-[width] duration-200 ease-in-out flex-shrink-0"
+        className="hidden lg:flex flex-col border-r border-slate-200 bg-white shadow-2xs transition-[width] duration-200 ease-in-out flex-shrink-0 z-20"
         style={{ width: collapsed ? "var(--sidebar-collapsed-width)" : "var(--sidebar-width)" }}
       >
         <AdminNavigation

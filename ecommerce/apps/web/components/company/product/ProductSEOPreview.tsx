@@ -47,7 +47,7 @@ export function ProductSEOPreview({
       }
     } catch (err) {
       console.error("AI assistant error:", err);
-    } fontally: {
+    } finally {
       setGeneratingField(null);
     }
   };
@@ -57,18 +57,18 @@ export function ProductSEOPreview({
       {/* Live Google Search Preview Snippet */}
       <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs space-y-3">
         <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
-          <Globe className="w-4 h-4 text-blue-600" />
+          <Globe className="w-4 h-4 text-amber-600" />
           <span>Search Engine Google Snippet Preview</span>
         </div>
 
         <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
           <div className="flex items-center gap-2 text-[11px] text-slate-600">
-            <span className="w-4 h-4 rounded-full bg-blue-600 text-white font-bold text-[9px] flex items-center justify-center">
+            <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 font-bold text-[9px] flex items-center justify-center">
               D
             </span>
             <span className="truncate max-w-[300px]">{displayUrl}</span>
           </div>
-          <h4 className="text-base font-bold text-blue-700 hover:underline cursor-pointer leading-tight">
+          <h4 className="text-base font-bold text-amber-800 hover:underline cursor-pointer leading-tight">
             {displayTitle}
           </h4>
           <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">{displayDesc}</p>
@@ -96,7 +96,7 @@ export function ProductSEOPreview({
             value={seo.title || ""}
             onChange={(e) => onChangeSEO({ ...seo, title: e.target.value })}
             placeholder="Custom SEO Title..."
-            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
           />
         </div>
 
@@ -119,7 +119,7 @@ export function ProductSEOPreview({
             value={seo.description || ""}
             onChange={(e) => onChangeSEO({ ...seo, description: e.target.value })}
             placeholder="Search result snippet summary (150-160 characters recommended)..."
-            className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+            className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
           />
         </div>
 
@@ -131,7 +131,7 @@ export function ProductSEOPreview({
             value={seo.keywords || ""}
             onChange={(e) => onChangeSEO({ ...seo, keywords: e.target.value })}
             placeholder="Comma-separated keywords (e.g. airpods, wireless earbuds, bluetooth headphones)..."
-            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
           />
         </div>
       </div>

@@ -88,7 +88,7 @@ export default function InventoryPage() {
       {/* 4 Inventory Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-2">
-          <div className="p-2.5 w-fit rounded-xl bg-blue-50 text-blue-600">
+          <div className="p-2.5 w-fit rounded-xl bg-amber-50 text-amber-600">
             <Boxes className="w-5 h-5" />
           </div>
           <span className="text-xs font-semibold text-slate-500 block">Total Units in Stock</span>
@@ -162,7 +162,7 @@ export default function InventoryPage() {
                     <td className="py-3 px-4 text-right">
                       <button
                         onClick={() => openAdjustModal(p)}
-                        className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 font-bold hover:bg-blue-100 transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-200/80 font-bold hover:bg-amber-100 transition-colors"
                       >
                         Adjust Stock
                       </button>
@@ -206,7 +206,7 @@ export default function InventoryPage() {
                   min={0}
                   value={newStock}
                   onChange={(e) => setNewStock(parseInt(e.target.value) || 0)}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 font-bold text-sm text-slate-900"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 font-bold text-sm text-slate-900"
                 />
               </div>
 
@@ -218,7 +218,7 @@ export default function InventoryPage() {
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
                   placeholder="e.g. Restocked 20 units, Damaged unit removal"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
                 />
               </div>
 
@@ -232,7 +232,7 @@ export default function InventoryPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-2xs"
+                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black transition-colors shadow-2xs"
                 >
                   Save Stock Adjustment
                 </button>

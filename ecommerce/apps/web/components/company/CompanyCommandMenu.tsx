@@ -59,7 +59,7 @@ export const CompanyCommandMenu: React.FC<CompanyCommandMenuProps> = ({ open, on
                 className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-100 text-slate-700 font-medium transition-colors"
               >
                 <div className="flex items-center gap-2.5">
-                  <Package className="w-4 h-4 text-blue-600" />
+                  <Package className="w-4 h-4 text-amber-600" />
                   <span>Add New Product</span>
                 </div>
                 <ArrowRight className="w-3.5 h-3.5 text-slate-400" />

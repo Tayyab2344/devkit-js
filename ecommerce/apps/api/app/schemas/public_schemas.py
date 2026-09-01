@@ -63,6 +63,7 @@ class PublicProductCardRead(BaseModel):
     discount_percentage: int = 0
     rating: float = 0.0
     review_count: int = 0
+    sales_count: int = 0
     stock: int = 0
     is_free_delivery: bool = True
     badge: Optional[str] = None  # BEST SELLER, NEW, SALE, LIMITED STOCK
@@ -128,6 +129,7 @@ class HeroSlideRead(BaseModel):
     description: Optional[str] = None
     desktop_image: str
     mobile_image: Optional[str] = None
+    side_image: Optional[str] = None
     button_text: str = "Shop Now"
     button_url: str = "/search"
     badge_text: Optional[str] = None

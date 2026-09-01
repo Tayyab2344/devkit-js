@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Logo } from "@/components/common/Logo";
 import { useAuthStore } from "@/lib/store/useAuthStore";
+import { companyApi } from "@/lib/api/company";
 import {
   LayoutDashboard,
   Package,
@@ -118,6 +119,16 @@ export const CompanyNavigation: React.FC<CompanyNavigationProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { user, logout } = useAuthStore();
+  const [profileLogo, setProfileLogo] = useState<string | null>(null);
+
+  useEffect(() => {
+    companyApi
+      .getProfile()
+      .then((data) => {
+        if (data.logo_url) setProfileLogo(data.logo_url);
+      })
+      .catch(() => {});
+  }, []);
 
   const isActive = (href: string) => {
     if (href === "/company/dashboard") return pathname === "/company/dashboard";
@@ -142,24 +153,32 @@ export const CompanyNavigation: React.FC<CompanyNavigationProps> = ({
   const storeName = user?.first_name ? `${user.first_name}'s Store` : "TechStore Official";
 
   return (
-    <div className="flex flex-col h-full bg-slate-900 text-slate-300 border-r border-slate-800 select-none">
+    <div className="flex flex-col h-full bg-white text-slate-700 border-r border-slate-200 select-none">
       {/* Top Workspace Indicator Header */}
-      <div className="h-16 px-4 flex items-center justify-between border-b border-slate-800 flex-shrink-0">
+      <div className="h-16 px-4 flex items-center justify-between border-b border-slate-200/80 flex-shrink-0">
         <Link href="/company/dashboard" className="flex items-center gap-3 min-w-0">
-          <Logo size={28} showText={!collapsed} textClassName="text-sm text-white" />
+          <Logo size={28} showText={!collapsed} textClassName="text-sm text-slate-900 font-bold" />
         </Link>
       </div>
 
       {/* Company Store Workspace Avatar */}
       {!collapsed && (
-        <div className="px-4 py-3 border-b border-slate-800 bg-slate-950/40 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-xs shrink-0">
-            {storeName.charAt(0).toUpperCase()}
-          </div>
+        <div className="px-4 py-3 border-b border-slate-200/80 bg-slate-50/60 flex items-center gap-3">
+          {profileLogo ? (
+            <img
+              src={profileLogo}
+              alt={storeName}
+              className="w-8 h-8 rounded-lg object-cover border border-slate-200 shrink-0"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-700 font-bold text-xs shrink-0">
+              {storeName.charAt(0).toUpperCase()}
+            </div>
+          )}
           <div className="min-w-0 flex-1">
-            <span className="block text-xs font-bold text-white truncate">{storeName}</span>
-            <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="block text-xs font-bold text-slate-900 truncate">{storeName}</span>
+            <span className="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Verified Seller
             </span>
           </div>
@@ -171,7 +190,7 @@ export const CompanyNavigation: React.FC<CompanyNavigationProps> = ({
         {NAV_GROUPS.map((group) => (
           <div key={group.label}>
             {!collapsed && (
-              <div className="px-3 pb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <div className="px-3 pb-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                 {group.label}
               </div>
             )}
@@ -187,8 +206,8 @@ export const CompanyNavigation: React.FC<CompanyNavigationProps> = ({
                       collapsed ? "justify-center px-0" : ""
                     } ${
                       active
-                        ? "bg-blue-600 text-white font-semibold shadow-sm"
-                        : "text-slate-400 hover:text-slate-100 hover:bg-slate-800/60"
+                        ? "bg-slate-900 text-white font-semibold shadow-xs"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
                     }`}
                     title={collapsed ? item.label : undefined}
                   >
@@ -203,21 +222,21 @@ export const CompanyNavigation: React.FC<CompanyNavigationProps> = ({
       </nav>
 
       {/* Bottom Menu Items */}
-      <div className="p-2 border-t border-slate-800 space-y-1 flex-shrink-0">
+      <div className="p-2 border-t border-slate-200/80 space-y-1 flex-shrink-0">
         {user?.role === "SUPER_ADMIN" && (
           <Link
             href="/admin/dashboard"
-            className="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-purple-400 bg-purple-950/40 hover:bg-purple-900/50 border border-purple-800/50 transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 transition-colors"
             title="Super Admin Portal"
           >
-            <ShieldCheck className="w-4 h-4 shrink-0 text-purple-400" />
+            <ShieldCheck className="w-4 h-4 shrink-0 text-purple-600" />
             {!collapsed && <span>Super Admin Portal</span>}
           </Link>
         )}
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 transition-colors"
           title="View Public Store"
         >
           <ExternalLink className="w-4 h-4 shrink-0 text-slate-400" />
@@ -225,15 +244,15 @@ export const CompanyNavigation: React.FC<CompanyNavigationProps> = ({
         </Link>
         <button
           onClick={() => logout()}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-400 hover:bg-rose-500/10 transition-colors"
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium text-rose-600 hover:bg-rose-50 transition-colors"
           title="Sign Out"
         >
-          <LogOut className="w-4 h-4 shrink-0" />
+          <LogOut className="w-4 h-4 shrink-0 text-rose-500" />
           {!collapsed && <span>Logout</span>}
         </button>
         <button
           onClick={onToggleCollapse}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 transition-colors"
         >
           {!collapsed && <span className="text-[11px]">Collapse sidebar</span>}
           {collapsed ? <ChevronsRight className="w-4 h-4 mx-auto" /> : <ChevronsLeft className="w-4 h-4" />}

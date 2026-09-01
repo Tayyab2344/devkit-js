@@ -83,7 +83,7 @@ export default function OrderDetailPage() {
     return (
       <CompanyShell>
         <div className="py-24 text-center text-xs text-slate-500 font-semibold space-y-3">
-          <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
           <span>Loading order details...</span>
         </div>
       </CompanyShell>
@@ -104,7 +104,7 @@ export default function OrderDetailPage() {
           <div className="flex items-center justify-center gap-3 pt-2">
             <button
               onClick={() => loadOrder()}
-              className="px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded-xl text-xs transition-colors"
             >
               Try Again
             </button>
@@ -145,7 +145,7 @@ export default function OrderDetailPage() {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl font-bold text-slate-900">Order #{order.id.slice(0, 8)}</h1>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-blue-50 text-blue-700 border border-blue-200">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-50 text-amber-900 border border-amber-200/80">
                 {order.order_status}
               </span>
             </div>
@@ -176,11 +176,11 @@ export default function OrderDetailPage() {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-colors ${
                     isCompleted
-                      ? "bg-blue-600 text-white shadow-sm"
+                      ? "bg-amber-500 text-slate-950 shadow-sm"
                       : "bg-slate-100 text-slate-400 border border-slate-300"
                   }`}
                 >
-                  {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : idx + 1}
+                  {isCompleted ? <CheckCircle2 className="w-4 h-4 text-slate-950" /> : idx + 1}
                 </div>
                 <span className={`text-xs font-semibold ${isCompleted ? "text-slate-900" : "text-slate-400"}`}>
                   {step.label}
@@ -196,7 +196,7 @@ export default function OrderDetailPage() {
             <button
               disabled={updating}
               onClick={() => { setModalError(null); setModalTargetStatus("confirmed"); }}
-              className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors shadow-2xs"
+              className="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 text-xs font-black hover:bg-amber-600 transition-colors shadow-2xs"
             >
               Confirm Order
             </button>
@@ -205,7 +205,7 @@ export default function OrderDetailPage() {
             <button
               disabled={updating}
               onClick={() => { setModalError(null); setModalTargetStatus("processing"); }}
-              className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors shadow-2xs"
+              className="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 text-xs font-black hover:bg-amber-600 transition-colors shadow-2xs"
             >
               Start Processing
             </button>
@@ -214,7 +214,7 @@ export default function OrderDetailPage() {
             <button
               disabled={updating}
               onClick={() => { setModalError(null); setModalTargetStatus("shipped"); }}
-              className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors shadow-2xs"
+              className="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 text-xs font-black hover:bg-amber-600 transition-colors shadow-2xs"
             >
               Mark Shipped
             </button>
@@ -292,7 +292,7 @@ export default function OrderDetailPage() {
             </div>
             <div className="flex justify-between text-sm font-extrabold text-slate-900 border-t border-slate-100 pt-3">
               <span>Total Paid</span>
-              <span className="text-blue-600">{formatPKR(order.total)}</span>
+              <span className="text-amber-700 font-black">{formatPKR(order.total)}</span>
             </div>
           </div>
         </div>
@@ -302,7 +302,7 @@ export default function OrderDetailPage() {
           {/* Customer Info */}
           <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-3 text-xs">
             <div className="flex items-center gap-2 text-slate-900 font-bold text-sm border-b border-slate-100 pb-3">
-              <User className="w-4 h-4 text-blue-600" />
+              <User className="w-4 h-4 text-amber-600" />
               <span>Customer Details</span>
             </div>
             <div>
@@ -338,7 +338,7 @@ export default function OrderDetailPage() {
             </button>
 
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shrink-0">
                 <RefreshCw className="w-6 h-6" />
               </div>
               <div>
@@ -356,7 +356,7 @@ export default function OrderDetailPage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-500 font-semibold">New Target Status:</span>
-                <span className="px-2 py-0.5 rounded-md bg-blue-600 text-white font-extrabold uppercase text-[10px]">
+                <span className="px-2 py-0.5 rounded-md bg-amber-500 text-slate-950 font-black uppercase text-[10px]">
                   {modalTargetStatus}
                 </span>
               </div>
@@ -369,7 +369,7 @@ export default function OrderDetailPage() {
                 value={modalNotes}
                 onChange={(e) => setModalNotes(e.target.value)}
                 placeholder="e.g. Tracking code or fulfillment notes"
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
 
@@ -391,11 +391,11 @@ export default function OrderDetailPage() {
               <button
                 disabled={updating}
                 onClick={handleConfirmStatusUpdate}
-                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-md shadow-blue-600/20 flex items-center gap-2 disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition-all shadow-md shadow-amber-500/20 flex items-center gap-2 disabled:opacity-50"
               >
                 {updating ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
                     <span>Updating...</span>
                   </>
                 ) : (

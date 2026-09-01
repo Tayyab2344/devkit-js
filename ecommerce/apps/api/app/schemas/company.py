@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from typing import Optional, List, Dict, Any, Generic, TypeVar
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, AliasChoices
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, AliasChoices, field_validator
 
 from app.models.enums import (
     BusinessType,
@@ -258,6 +258,17 @@ class CompanyCouponCreate(BaseModel):
     per_user_limit: Optional[int] = Field(1, ge=1)
     expiry_date: Optional[datetime] = None
 
+    @field_validator("discount_type", mode="before")
+    @classmethod
+    def parse_discount_type(cls, v):
+        if isinstance(v, str):
+            v_upper = v.upper()
+            if v_upper == "PERCENTAGE":
+                return DiscountType.PERCENTAGE
+            elif v_upper in ("FIXED", "FIXED_AMOUNT"):
+                return DiscountType.FIXED
+        return v
+
 
 class CompanyCouponRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -267,11 +278,11 @@ class CompanyCouponRead(BaseModel):
     code: str
     discount_type: DiscountType
     discount_value: int
-    minimum_order: int
-    maximum_discount: int
-    usage_limit: int
-    usage_count: int
-    expiry_date: Optional[datetime] = None
+    minimum_order: int = Field(0, validation_alias=AliasChoices("minimum_order", "minimum_order_amount"))
+    maximum_discount: int = Field(0, validation_alias=AliasChoices("maximum_discount", "maximum_discount_amount"))
+    usage_limit: int = Field(0)
+    usage_count: int = Field(0)
+    expiry_date: Optional[datetime] = Field(None, validation_alias=AliasChoices("expiry_date", "end_date"))
     is_active: bool
     created_at: datetime
 

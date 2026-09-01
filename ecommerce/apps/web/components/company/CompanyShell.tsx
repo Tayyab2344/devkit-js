@@ -45,7 +45,7 @@ export function CompanyShell({ children }: { children: React.ReactNode }) {
       <div className="h-screen flex overflow-hidden bg-slate-50 font-sans antialiased text-slate-900">
         {/* Desktop Sidebar */}
         <aside
-          className="hidden lg:flex flex-col flex-shrink-0 transition-all duration-200 ease-in-out"
+          className="hidden lg:flex flex-col flex-shrink-0 border-r border-slate-200 bg-white shadow-2xs transition-all duration-200 ease-in-out z-20"
           style={{ width: collapsed ? "4.5rem" : "16rem" }}
         >
           <Suspense fallback={<div className="p-4 text-xs text-slate-500">Loading nav...</div>}>

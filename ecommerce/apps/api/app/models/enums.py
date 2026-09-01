@@ -110,8 +110,26 @@ class PayoutStatus(str, enum.Enum):
 
 
 class DiscountType(str, enum.Enum):
-    PERCENTAGE = "percentage"
-    FIXED = "fixed"
+    PERCENTAGE = "PERCENTAGE"
+    FIXED_AMOUNT = "FIXED_AMOUNT"
+    FIXED = "FIXED"
+
+
+class DiscountScope(str, enum.Enum):
+    STORE = "STORE"
+    PRODUCTS = "PRODUCTS"
+    CATEGORIES = "CATEGORIES"
+
+
+class CommissionType(str, enum.Enum):
+    PERCENTAGE = "PERCENTAGE"
+    FIXED = "FIXED"
+
+
+class AttributionStatus(str, enum.Enum):
+    ATTRIBUTED = "ATTRIBUTED"
+    CONVERTED = "CONVERTED"
+    EXPIRED = "EXPIRED"
 
 
 class InfluencerStatus(str, enum.Enum):

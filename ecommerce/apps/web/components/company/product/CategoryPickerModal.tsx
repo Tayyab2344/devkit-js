@@ -165,7 +165,7 @@ export function CategoryPickerModal({
             style={{ paddingLeft: `${level * 18 + 12}px` }}
             className={`group flex items-center justify-between py-2.5 pr-4 rounded-xl cursor-pointer transition-all duration-150 my-0.5 ${
               isSelected
-                ? "bg-blue-600 text-white font-semibold shadow-md shadow-blue-500/20"
+                ? "bg-amber-500 text-slate-950 font-bold shadow-md shadow-amber-500/20"
                 : "hover:bg-slate-100 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-200"
             }`}
           >
@@ -176,7 +176,7 @@ export function CategoryPickerModal({
                   onClick={(e) => toggleExpand(cat.id, e)}
                   className={`p-1 rounded-md transition-colors ${
                     isSelected
-                      ? "hover:bg-blue-500 text-white"
+                      ? "hover:bg-amber-600 text-slate-950"
                       : "hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400"
                   }`}
                 >
@@ -191,16 +191,16 @@ export function CategoryPickerModal({
               )}
 
               {isExpanded ? (
-                <FolderOpen className={`w-4 h-4 ${isSelected ? "text-white" : "text-amber-500"}`} />
+                <FolderOpen className={`w-4 h-4 ${isSelected ? "text-slate-950" : "text-amber-500"}`} />
               ) : (
-                <Folder className={`w-4 h-4 ${isSelected ? "text-white" : "text-amber-500"}`} />
+                <Folder className={`w-4 h-4 ${isSelected ? "text-slate-950" : "text-amber-500"}`} />
               )}
 
               <span className="text-sm truncate">{cat.name}</span>
             </div>
 
             {isSelected && (
-              <div className="flex items-center gap-1.5 bg-white/20 px-2 py-0.5 rounded-full text-xs text-white">
+              <div className="flex items-center gap-1.5 bg-slate-950/20 px-2 py-0.5 rounded-full text-xs text-slate-950 font-bold">
                 <Check className="w-3.5 h-3.5" />
                 <span>Selected</span>
               </div>
@@ -221,7 +221,7 @@ export function CategoryPickerModal({
         {/* Header */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-blue-600/30 text-blue-400 border border-blue-500/30">
+            <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
               <Folder className="w-5 h-5" />
             </div>
             <div>
@@ -247,7 +247,7 @@ export function CategoryPickerModal({
               onClick={() => setIsCreatingNew(false)}
               className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                 !isCreatingNew
-                  ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800"
+                  ? "bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-400 border border-amber-200 dark:border-amber-800"
                   : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
@@ -258,7 +258,7 @@ export function CategoryPickerModal({
               onClick={() => setIsCreatingNew(true)}
               className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 isCreatingNew
-                  ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800"
+                  ? "bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-400 border border-amber-200 dark:border-amber-800"
                   : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
@@ -285,7 +285,7 @@ export function CategoryPickerModal({
                 placeholder="Search categories by name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500"
               />
               {searchQuery && (
                 <button
@@ -302,7 +302,7 @@ export function CategoryPickerModal({
             <div className="flex-1 min-h-[250px]">
               {loading ? (
                 <div className="py-12 flex flex-col items-center justify-center text-slate-400 gap-3">
-                  <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+                  <Loader2 className="w-6 h-6 animate-spin text-amber-500" />
                   <span className="text-xs">Loading marketplace categories...</span>
                 </div>
               ) : categories.length === 0 ? (
@@ -319,7 +319,7 @@ export function CategoryPickerModal({
                   <button
                     type="button"
                     onClick={() => setIsCreatingNew(true)}
-                    className="mt-4 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                    className="mt-4 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5" /> Create a category for your company
                   </button>
@@ -356,7 +356,7 @@ export function CategoryPickerModal({
                 placeholder="e.g. Smart Wearables"
                 value={newCatName}
                 onChange={(e) => setNewCatName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                className="w-full px-3.5 py-2.5 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40"
               />
             </div>
 
@@ -367,7 +367,7 @@ export function CategoryPickerModal({
               <select
                 value={newCatParentId}
                 onChange={(e) => setNewCatParentId(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                className="w-full px-3.5 py-2.5 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40"
               >
                 <option value="">None (Top-Level Category)</option>
                 {categories.map((cat) => (
@@ -387,7 +387,7 @@ export function CategoryPickerModal({
                 placeholder="Short description of this category..."
                 value={newCatDescription}
                 onChange={(e) => setNewCatDescription(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                className="w-full px-3.5 py-2.5 rounded-xl text-sm border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40"
               />
             </div>
 
@@ -395,16 +395,16 @@ export function CategoryPickerModal({
               <button
                 type="submit"
                 disabled={submittingCreate || !newCatName.trim()}
-                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-semibold text-xs transition-all flex items-center gap-2 shadow-md shadow-blue-500/20"
+                className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-slate-950 font-black text-xs transition-all flex items-center gap-2 shadow-md shadow-amber-500/20"
               >
                 {submittingCreate ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
                     Creating...
                   </>
                 ) : (
                   <>
-                    <Plus className="w-4 h-4" />
+                    <Plus className="w-4 h-4 text-slate-950" />
                     Create Category for Company
                   </>
                 )}
@@ -428,9 +428,9 @@ export function CategoryPickerModal({
               type="button"
               disabled={!selectedCat}
               onClick={handleConfirmSelect}
-              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-xs transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5"
+              className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed text-slate-950 font-black text-xs transition-all shadow-md shadow-amber-500/20 flex items-center gap-1.5"
             >
-              <Check className="w-4 h-4" />
+              <Check className="w-4 h-4 text-slate-950" />
               Confirm Selection
             </button>
           </div>

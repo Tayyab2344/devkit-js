@@ -75,9 +75,9 @@ export default function TeamPage() {
 
         <button
           onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-2xs"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black text-slate-950 bg-amber-500 hover:bg-amber-600 transition-colors shadow-2xs"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 text-slate-950" />
           <span>Invite Staff Member</span>
         </button>
       </div>
@@ -103,7 +103,7 @@ export default function TeamPage() {
                     {t.first_name} {t.last_name}
                   </td>
                   <td className="py-3 px-4 text-slate-600">{t.email}</td>
-                  <td className="py-3 px-4 uppercase font-bold text-blue-600">{t.role.replace("_", " ")}</td>
+                  <td className="py-3 px-4 uppercase font-bold text-amber-700">{t.role.replace("_", " ")}</td>
                   <td className="py-3 px-4">
                     <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
                       {t.status}
@@ -147,7 +147,7 @@ export default function TeamPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="staff@store.com"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
                 />
               </div>
 
@@ -156,7 +156,7 @@ export default function TeamPage() {
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value as "manager" | "product_manager" | "order_manager" | "marketing_manager")}
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
                 >
                   <option value="manager">Store Manager (Full Store Control)</option>
                   <option value="product_manager">Product Manager (Catalog & Stock)</option>
@@ -175,7 +175,7 @@ export default function TeamPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-2xs"
+                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black transition-colors shadow-2xs"
                 >
                   Send Invitation
                 </button>

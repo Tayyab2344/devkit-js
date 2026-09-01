@@ -75,6 +75,7 @@ def product_to_card(product: Product, company: Company, category: Optional[Categ
         discount_percentage=disc,
         rating=float(product.rating or 0.0),
         review_count=product.review_count or 0,
+        sales_count=product.sales_count or 0,
         stock=product.stock,
         is_free_delivery=True,
         badge=badge,
@@ -84,7 +85,6 @@ def product_to_card(product: Product, company: Company, category: Optional[Categ
         company_name=company.name,
         company_slug=company.slug,
         company_is_verified=True,
-        category_id=category.id if category else product.category_id,
         category_name=category.name if category else None,
         category_slug=category.slug if category else None,
         created_at=created_at or now_utc,
@@ -99,22 +99,79 @@ class PublicService:
             HeroSlideRead(
                 id="slide-1",
                 title="Everything you need.\nAll in one marketplace.",
-                subtitle="Shop products from trusted stores across Pakistan.",
+                subtitle="Shop smartphones, laptops & smartwatches from verified stores across Pakistan.",
                 description="Discover authentic tech, fashion, and lifestyle items with verified seller warranties and nationwide express delivery.",
                 desktop_image="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600&auto=format&fit=crop&q=80",
-                button_text="Shop Now",
-                button_url="/search",
+                side_image="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80",
+                button_text="Shop Electronics",
+                button_url="/search?q=Electronics",
                 badge_text="DIGIBAZAR EXCLUSIVE",
             ),
             HeroSlideRead(
                 id="slide-2",
-                title="Upgrade your everyday tech & fashion",
-                subtitle="Explore direct deals from top Pakistani brand stores.",
+                title="Upgrade your everyday\ntech & fashion",
+                subtitle="Explore direct deals from top Pakistani clothing & fashion brand stores.",
                 description="Best prices on genuine electronics, home appliances, and apparel with 100% buyer protection.",
-                desktop_image="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1600&auto=format&fit=crop&q=80",
-                button_text="Explore Categories",
-                button_url="/search",
+                desktop_image="https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&auto=format&fit=crop&q=80",
+                side_image="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&auto=format&fit=crop&q=80",
+                button_text="Shop Fashion",
+                button_url="/search?q=Fashion",
                 badge_text="VERIFIED BRANDS",
+            ),
+            HeroSlideRead(
+                id="slide-3",
+                title="Redefine your home\n& living space",
+                subtitle="Discover designer furniture, decor, and smart kitchen appliances with express shipping.",
+                description="Elevate your living room and kitchen with durable, stylish home essentials.",
+                desktop_image="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1600&auto=format&fit=crop&q=80",
+                side_image="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&auto=format&fit=crop&q=80",
+                button_text="Explore Home",
+                button_url="/search?q=Home",
+                badge_text="HOME ESSENTIALS",
+            ),
+            HeroSlideRead(
+                id="slide-4",
+                title="Immersive sound &\nsmart wearables",
+                subtitle="Top rated wireless earbuds, headphones, and fitness watches with brand warranties.",
+                description="Experience high-fidelity audio and health tracking with original brand guarantees.",
+                desktop_image="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1600&auto=format&fit=crop&q=80",
+                side_image="https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800&auto=format&fit=crop&q=80",
+                button_text="Shop Wearables",
+                button_url="/search?q=Wearables",
+                badge_text="TRENDING GADGETS",
+            ),
+            HeroSlideRead(
+                id="slide-5",
+                title="Glow with authentic\nbeauty & skincare",
+                subtitle="100% genuine skincare products, serums, and luxury perfumes from certified sellers.",
+                description="Nourish your skin with top dermatologist recommended brands and organic cosmetics.",
+                desktop_image="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1600&auto=format&fit=crop&q=80",
+                side_image="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&auto=format&fit=crop&q=80",
+                button_text="Shop Beauty",
+                button_url="/search?q=Beauty",
+                badge_text="BEAUTY CARE",
+            ),
+            HeroSlideRead(
+                id="slide-6",
+                title="Gear up for ultimate\nfitness & sports",
+                subtitle="High-grade training equipment, activewear, and footwear for everyday athletes.",
+                description="Achieve your fitness goals with premium sports gear and durable gym accessories.",
+                desktop_image="https://images.unsplash.com/photo-1517649763962-0c623266010b?w=1600&auto=format&fit=crop&q=80",
+                side_image="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=800&auto=format&fit=crop&q=80",
+                button_text="Shop Sports",
+                button_url="/search?q=Sports",
+                badge_text="ACTIVE GEAR",
+            ),
+            HeroSlideRead(
+                id="slide-7",
+                title="Unbeatable deals &\nseasonal price cuts",
+                subtitle="Save up to 50% on top Pakistani stores with nationwide express shipping.",
+                description="Limited time flash discounts on top-selling marketplace categories.",
+                desktop_image="https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=1600&auto=format&fit=crop&q=80",
+                side_image="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=800&auto=format&fit=crop&q=80",
+                button_text="View Flash Deals",
+                button_url="/search?q=deals",
+                badge_text="SPECIAL DISCOUNTS",
             ),
         ]
 
@@ -326,15 +383,19 @@ class PublicService:
         )
 
         if q and q.strip():
-            t = f"%{q.strip()}%"
-            stmt = stmt.where(
-                or_(
-                    Product.name.ilike(t),
-                    Product.brand.ilike(t),
-                    Product.short_description.ilike(t),
-                    Product.description.ilike(t),
+            raw_q = q.strip().lower()
+            if raw_q in ["deals", "deal", "flash", "flash sale"]:
+                stmt = stmt.where(or_(Product.sale_price.isnot(None), Product.discount_percentage > 0))
+            else:
+                t = f"%{q.strip()}%"
+                stmt = stmt.where(
+                    or_(
+                        Product.name.ilike(t),
+                        Product.brand.ilike(t),
+                        Product.short_description.ilike(t),
+                        Product.description.ilike(t),
+                    )
                 )
-            )
 
         if category_slug:
             cat_stmt = select(Category.id).where(Category.slug == category_slug)

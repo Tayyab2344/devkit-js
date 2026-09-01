@@ -75,15 +75,21 @@ export const companyApi = {
     apiClient<CompanyPaginatedResponse<CompanyCustomerRead>>(`${BASE}/customers${toQuery(params)}`),
 
   // Coupons
-  listCoupons: () => apiClient<CompanyCouponRead[]>(`${BASE}/coupons`),
-  createCoupon: (data: CompanyCouponCreate) =>
-    apiClient<CompanyCouponRead>(`${BASE}/coupons`, { method: "POST", body: JSON.stringify(data) }),
-  deleteCoupon: (id: string) => apiClient<{ message: string }>(`${BASE}/coupons/${id}`, { method: "DELETE" }),
+  listCoupons: () => apiClient<any[]>("/api/v1/coupons"),
+  createCoupon: (data: any) =>
+    apiClient<any>("/api/v1/coupons", { method: "POST", body: JSON.stringify(data) }),
+  toggleCouponActive: (id: string, active: boolean) =>
+    apiClient<any>(`/api/v1/coupons/${id}/${active ? "activate" : "pause"}`, { method: "POST" }),
+  deleteCoupon: (id: string) => apiClient<{ message: string }>(`/api/v1/coupons/${id}`, { method: "DELETE" }),
 
   // Campaigns
-  listCampaigns: () => apiClient<CompanyCampaignRead[]>(`${BASE}/campaigns`),
-  createCampaign: (data: CompanyCampaignCreate) =>
-    apiClient<CompanyCampaignRead>(`${BASE}/campaigns`, { method: "POST", body: JSON.stringify(data) }),
+  listCampaigns: () => apiClient<any[]>("/api/v1/campaigns"),
+  createCampaign: (data: any) =>
+    apiClient<any>("/api/v1/campaigns", { method: "POST", body: JSON.stringify(data) }),
+  toggleCampaignActive: (id: string, active: boolean) =>
+    apiClient<any>(`/api/v1/campaigns/${id}/${active ? "activate" : "pause"}`, { method: "POST" }),
+  deleteCampaign: (id: string) => apiClient<{ message: string }>(`/api/v1/campaigns/${id}`, { method: "DELETE" }),
+  getCampaignAnalytics: (id: string) => apiClient<any>(`/api/v1/campaigns/${id}/analytics`),
 
   // Reviews
   listReviews: () => apiClient<CompanyReviewRead[]>(`${BASE}/reviews`),

@@ -39,7 +39,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setActiveTab("account")}
             className={`px-4 py-2 rounded-xl transition-all ${
-              activeTab === "account" ? "bg-blue-600 text-white shadow-2xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              activeTab === "account" ? "bg-amber-500 text-slate-950 font-black shadow-2xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
             Account & Security
@@ -47,7 +47,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setActiveTab("notifications")}
             className={`px-4 py-2 rounded-xl transition-all ${
-              activeTab === "notifications" ? "bg-blue-600 text-white shadow-2xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              activeTab === "notifications" ? "bg-amber-500 text-slate-950 font-black shadow-2xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
             Notifications
@@ -55,7 +55,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setActiveTab("store")}
             className={`px-4 py-2 rounded-xl transition-all ${
-              activeTab === "store" ? "bg-blue-600 text-white shadow-2xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              activeTab === "store" ? "bg-amber-500 text-slate-950 font-black shadow-2xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
             Store Preferences
@@ -110,7 +110,7 @@ export default function SettingsPage() {
                 type="checkbox"
                 checked={notifyNewOrder}
                 onChange={(e) => setNotifyNewOrder(e.target.checked)}
-                className="w-4 h-4 text-blue-600 rounded"
+                className="w-4 h-4 text-amber-600 rounded"
               />
             </label>
 
@@ -123,7 +123,7 @@ export default function SettingsPage() {
                 type="checkbox"
                 checked={notifyLowStock}
                 onChange={(e) => setNotifyLowStock(e.target.checked)}
-                className="w-4 h-4 text-blue-600 rounded"
+                className="w-4 h-4 text-amber-600 rounded"
               />
             </label>
           </div>
@@ -156,9 +156,9 @@ export default function SettingsPage() {
         <div className="pt-4 border-t border-slate-100 flex justify-end">
           <button
             type="submit"
-            className="px-5 py-2.5 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-2xs inline-flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl text-xs font-black text-slate-950 bg-amber-500 hover:bg-amber-600 transition-colors shadow-2xs inline-flex items-center gap-2"
           >
-            <Save className="w-4 h-4" />
+            <Save className="w-4 h-4 text-slate-950" />
             <span>Save Preferences</span>
           </button>
         </div>

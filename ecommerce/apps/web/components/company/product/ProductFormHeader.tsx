@@ -49,11 +49,11 @@ export function ProductFormHeader({
             <span className="font-semibold text-slate-700">Product Completion:</span>
             <div className="w-32 h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
               <div
-                className="h-full bg-blue-600 rounded-full transition-all duration-300"
+                className="h-full bg-amber-500 rounded-full transition-all duration-300"
                 style={{ width: `${completionPct}%` }}
               />
             </div>
-            <span className="font-bold text-blue-600">{completionPct}%</span>
+            <span className="font-bold text-amber-700">{completionPct}%</span>
           </div>
         </div>
 
@@ -87,12 +87,12 @@ export function ProductFormHeader({
             type="button"
             onClick={onPublish}
             disabled={isSaving}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all disabled:opacity-50 cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-black text-slate-950 bg-amber-500 hover:bg-amber-600 shadow-sm transition-all disabled:opacity-50 cursor-pointer"
           >
             {isSaving ? (
-              <RefreshCw className="w-3.5 h-3.5 text-white animate-spin" />
+              <RefreshCw className="w-3.5 h-3.5 text-slate-950 animate-spin" />
             ) : (
-              <Send className="w-3.5 h-3.5 text-white" />
+              <Send className="w-3.5 h-3.5 text-slate-950" />
             )}
             <span>
               {isSaving

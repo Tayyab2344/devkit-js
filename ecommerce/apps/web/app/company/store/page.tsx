@@ -85,9 +85,9 @@ export default function StoreProfilePage() {
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2.5 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-2xs disabled:opacity-50 inline-flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl text-xs font-black text-slate-950 bg-amber-500 hover:bg-amber-600 transition-colors shadow-2xs disabled:opacity-50 inline-flex items-center gap-2"
             >
-              <Save className="w-4 h-4" />
+              <Save className="w-4 h-4 text-slate-950" />
               <span>{saving ? "Saving…" : "Save Changes"}</span>
             </button>
           </div>
@@ -108,7 +108,7 @@ export default function StoreProfilePage() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900 font-bold"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900 font-bold"
                   />
                 </div>
 
@@ -119,7 +119,7 @@ export default function StoreProfilePage() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Tell buyers about your company, store mission, and product quality guarantees..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
                   />
                 </div>
               </div>
@@ -136,7 +136,7 @@ export default function StoreProfilePage() {
                     required
                     value={businessEmail}
                     onChange={(e) => setBusinessEmail(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
                   />
                 </div>
 
@@ -147,7 +147,7 @@ export default function StoreProfilePage() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
                   />
                 </div>
 
@@ -158,7 +158,7 @@ export default function StoreProfilePage() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="e.g. Main Boulevard, DHA Phase 6"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
                   />
                 </div>
 
@@ -169,7 +169,7 @@ export default function StoreProfilePage() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="e.g. Lahore"
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
                   />
                 </div>
               </div>
@@ -182,9 +182,13 @@ export default function StoreProfilePage() {
 
             <div className="p-4 bg-slate-900 text-white rounded-xl space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-blue-600 font-bold flex items-center justify-center text-sm">
-                  {name ? name.charAt(0).toUpperCase() : "T"}
-                </div>
+                {profile?.logo_url ? (
+                  <img src={profile.logo_url} alt={name} className="w-10 h-10 rounded-lg object-cover border border-slate-700" />
+                ) : (
+                  <div className="w-10 h-10 rounded-lg bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">
+                    {name ? name.charAt(0).toUpperCase() : "T"}
+                  </div>
+                )}
                 <div>
                   <span className="block font-bold text-sm text-white">{name || "TechStore Official"}</span>
                   <span className="text-[10px] text-emerald-400 font-semibold">Verified Merchant</span>
@@ -195,11 +199,11 @@ export default function StoreProfilePage() {
               </p>
               <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-400 space-y-1">
                 <div className="flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-blue-400" />
+                  <Mail className="w-3.5 h-3.5 text-amber-400" />
                   <span>{businessEmail || "support@store.com"}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-blue-400" />
+                  <Phone className="w-3.5 h-3.5 text-amber-400" />
                   <span>{phone || "+92 300 1234567"}</span>
                 </div>
               </div>

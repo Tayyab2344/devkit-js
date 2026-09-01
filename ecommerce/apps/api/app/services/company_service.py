@@ -52,6 +52,7 @@ from app.schemas.company import (
 )
 from app.schemas.product_schemas import (
     CategoryRead,
+    CategoryUpdate,
     ProductCreate,
     ProductUpdate,
     ProductDraftCreate,
@@ -128,6 +129,19 @@ class CompanyService:
         res = await db.execute(stmt)
         categories = list(res.scalars().all())
 
+        # Calculate product counts for company
+        prod_counts: Dict[uuid.UUID, int] = {}
+        if company_id:
+            count_stmt = (
+                select(Product.category_id, func.count(Product.id))
+                .where(Product.company_id == company_id, Product.category_id.is_not(None))
+                .group_by(Product.category_id)
+            )
+            count_res = await db.execute(count_stmt)
+            for cat_id, p_count in count_res.all():
+                if cat_id:
+                    prod_counts[cat_id] = p_count
+
         # Build parent-child hierarchy safely without triggering lazy ORM loads
         cat_map = {
             c.id: CategoryRead(
@@ -140,6 +154,9 @@ class CompanyService:
                 company_id=c.company_id,
                 is_active=c.is_active,
                 sort_order=c.sort_order,
+                product_count=prod_counts.get(c.id, 0),
+                created_at=c.created_at,
+                updated_at=c.updated_at,
                 children=[],
             )
             for c in categories
@@ -153,6 +170,78 @@ class CompanyService:
             elif not c.parent_id:
                 tree.append(dto)
         return tree if not search else list(cat_map.values())
+
+    @staticmethod
+    async def update_store_category(
+        db: AsyncSession, company: Company, category_id: uuid.UUID, data: Dict[str, Any]
+    ) -> CategoryRead:
+        res = await db.execute(select(Category).where(Category.id == category_id))
+        category = res.scalar_one_or_none()
+        if not category:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found.")
+
+        if category.company_id != company.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Marketplace categories managed by DigiBazar cannot be modified by individual stores."
+            )
+
+        for key, val in data.items():
+            if val is not None:
+                setattr(category, key, val)
+
+        await db.commit()
+        await db.refresh(category)
+
+        # Get product count
+        count_res = await db.execute(
+            select(func.count(Product.id)).where(Product.company_id == company.id, Product.category_id == category.id)
+        )
+        p_count = count_res.scalar_one() or 0
+
+        return CategoryRead(
+            id=category.id,
+            name=category.name,
+            slug=category.slug,
+            description=category.description,
+            image_url=category.image_url,
+            parent_id=category.parent_id,
+            company_id=category.company_id,
+            is_active=category.is_active,
+            sort_order=category.sort_order,
+            product_count=p_count,
+            created_at=category.created_at,
+            updated_at=category.updated_at,
+            children=[],
+        )
+
+    @staticmethod
+    async def delete_store_category(db: AsyncSession, company: Company, category_id: uuid.UUID) -> bool:
+        res = await db.execute(select(Category).where(Category.id == category_id))
+        category = res.scalar_one_or_none()
+        if not category:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found.")
+
+        if category.company_id != company.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Marketplace categories managed by DigiBazar cannot be deleted by individual stores."
+            )
+
+        # Check assigned products count
+        count_res = await db.execute(
+            select(func.count(Product.id)).where(Product.category_id == category.id)
+        )
+        p_count = count_res.scalar_one() or 0
+        if p_count > 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Cannot delete store category with {p_count} assigned products. Reassign or delete products first."
+            )
+
+        await db.delete(category)
+        await db.commit()
+        return True
 
     @staticmethod
     async def create_category_request(db: AsyncSession, company: Company, data: CategoryRequestCreate) -> CategoryRequest:
@@ -832,16 +921,29 @@ class CompanyService:
         if existing.scalar_one_or_none():
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Coupon code already exists")
 
+        dtype = data.discount_type
+        if isinstance(dtype, str):
+            dtype_str = dtype.upper()
+            if dtype_str == "FIXED":
+                dtype = DiscountType.FIXED
+            elif dtype_str == "FIXED_AMOUNT":
+                dtype = DiscountType.FIXED_AMOUNT
+            elif dtype_str == "PERCENTAGE":
+                dtype = DiscountType.PERCENTAGE
+            else:
+                dtype = DiscountType.PERCENTAGE
+
         coupon = Coupon(
             company_id=company.id,
             code=data.code.upper(),
-            discount_type=data.discount_type,
+            name=f"Coupon {data.code.upper()}",
+            discount_type=dtype,
             discount_value=data.discount_value,
-            minimum_order=getattr(data, "minimum_order", 0) or getattr(data, "min_purchase_amount", 0),
-            maximum_discount=getattr(data, "maximum_discount", 0) or getattr(data, "max_discount_amount", 0),
-            usage_limit=getattr(data, "usage_limit", 0),
+            minimum_order_amount=getattr(data, "minimum_order", 0) or getattr(data, "min_purchase_amount", 0) or 0,
+            maximum_discount_amount=getattr(data, "maximum_discount", 0) or getattr(data, "max_discount_amount", 0) or 0,
+            usage_limit=getattr(data, "usage_limit", 0) or 0,
             start_date=getattr(data, "valid_from", None) or getattr(data, "start_date", None) or utc_now(),
-            expiry_date=getattr(data, "expiry_date", None) or getattr(data, "valid_until", None),
+            end_date=getattr(data, "expiry_date", None) or getattr(data, "valid_until", None),
             is_active=True,
         )
         db.add(coupon)

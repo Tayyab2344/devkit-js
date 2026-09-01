@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 import { publicApi, SearchSuggestionResponse, PublicCategory } from "@/lib/api/public";
 import { useAuthStore } from "@/lib/store/useAuthStore";
 import { AuthenticatedMenu } from "@/components/auth/AuthenticatedMenu";
@@ -43,6 +44,7 @@ import { AuthenticatedMenu } from "@/components/auth/AuthenticatedMenu";
 export const Header: React.FC = () => {
   const router = useRouter();
   const { cartCount, cartItems, subtotalCents, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity } = useCart();
+  const { wishlistCount } = useWishlist();
   const { user, isAuthenticated, initializeAuth } = useAuthStore();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,7 +55,6 @@ export const Header: React.FC = () => {
   const [showMegaMenu, setShowMegaMenu] = useState(false);
   const [activeMegaCategory, setActiveMegaCategory] = useState("Electronics");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [wishlistCount, setWishlistCount] = useState(0);
 
   const searchRef = useRef<HTMLDivElement>(null);
   const megaMenuRef = useRef<HTMLDivElement>(null);
@@ -414,7 +415,7 @@ export const Header: React.FC = () => {
                 <User className="w-5 h-5 text-zinc-700 stroke-[1.8] shrink-0" />
                 <div className="hidden xl:flex flex-col leading-none">
                   <span className="text-[10px] text-zinc-400 font-medium uppercase">Account</span>
-                  <span className="text-xs font-bold text-zinc-900 leading-none mt-0.5 group-hover:text-zinc-600">
+                  <span className="text-xs font-medium text-zinc-900 leading-none mt-0.5 group-hover:text-zinc-600">
                     Sign in / Register
                   </span>
                 </div>
@@ -429,14 +430,14 @@ export const Header: React.FC = () => {
               <div className="relative">
                 <Heart className="w-5 h-5 text-zinc-700 stroke-[1.8] shrink-0" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-zinc-900 text-white font-bold text-[10px] min-w-[16px] h-4 rounded-full flex items-center justify-center border border-white">
+                  <span className="absolute -top-1.5 -right-1.5 bg-zinc-900 text-white font-semibold text-[10px] min-w-[16px] h-4 rounded-full flex items-center justify-center border border-white">
                     {wishlistCount}
                   </span>
                 )}
               </div>
               <div className="hidden xl:flex flex-col leading-none">
                 <span className="text-[10px] text-zinc-400 font-medium uppercase">Wishlist</span>
-                <span className="text-xs font-bold text-zinc-900 leading-none mt-0.5 group-hover:text-zinc-600">
+                <span className="text-xs font-medium text-zinc-900 leading-none mt-0.5 group-hover:text-zinc-600">
                   Saved Items
                 </span>
               </div>
@@ -450,7 +451,7 @@ export const Header: React.FC = () => {
               <Package className="w-5 h-5 text-zinc-700 stroke-[1.8] shrink-0" />
               <div className="hidden xl:flex flex-col leading-none">
                 <span className="text-[10px] text-zinc-400 font-medium uppercase">Orders</span>
-                <span className="text-xs font-bold text-zinc-900 leading-none mt-0.5 group-hover:text-zinc-600">
+                <span className="text-xs font-medium text-zinc-900 leading-none mt-0.5 group-hover:text-zinc-600">
                   Track Packages
                 </span>
               </div>
@@ -464,14 +465,14 @@ export const Header: React.FC = () => {
               <div className="relative p-2 bg-zinc-100 group-hover:bg-zinc-200 rounded-xl transition-colors">
                 <ShoppingBag className="w-5 h-5 text-zinc-900 stroke-[1.8]" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-amber-600 text-white font-bold text-[10px] min-w-[18px] h-4.5 px-1 rounded-full flex items-center justify-center border-2 border-white shadow-2xs">
+                  <span className="absolute -top-1 -right-1 bg-amber-600 text-white font-semibold text-[10px] min-w-[18px] h-4.5 px-1 rounded-full flex items-center justify-center border-2 border-white shadow-2xs">
                     {cartCount}
                   </span>
                 )}
               </div>
               <div className="hidden sm:flex flex-col leading-none">
                 <span className="text-[10px] text-zinc-400 font-medium uppercase">Cart</span>
-                <span className="text-xs font-extrabold text-zinc-900 leading-none mt-0.5">
+                <span className="text-xs font-semibold text-zinc-900 leading-none mt-0.5">
                   {formatPKR(subtotalCents)}
                 </span>
               </div>
@@ -516,7 +517,7 @@ export const Header: React.FC = () => {
             className="bg-amber-50 text-amber-900 border border-amber-200/80 px-3 py-1 rounded-md text-xs font-bold font-sans flex items-center gap-1.5 hover:bg-amber-100 transition-colors shrink-0"
           >
             <Flame className="w-3.5 h-3.5 text-amber-600" />
-            <span>Today's Deals</span>
+            <span>Today&apos;s Deals</span>
           </Link>
         </div>
       </div>

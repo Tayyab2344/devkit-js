@@ -59,6 +59,7 @@ export interface PublicProductCard {
   discount_percentage: number;
   rating: number;
   review_count: number;
+  sales_count?: number;
   stock: number;
   is_free_delivery: boolean;
   badge?: string; // BEST SELLER, NEW, SALE, LIMITED STOCK
@@ -124,6 +125,7 @@ export interface HeroSlide {
   description?: string;
   desktop_image: string;
   mobile_image?: string;
+  side_image?: string;
   button_text: string;
   button_url: string;
   badge_text?: string;

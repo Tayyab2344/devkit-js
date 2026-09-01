@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
 
     # Database settings
-    DATABASE_URL: str = "sqlite+aiosqlite:///./commercehub.db"
+    DATABASE_URL: str = "postgresql+asyncpg://neondb_owner:npg_Ue1cmkqK9TJr@ep-polished-bonus-ayf8ktqn-pooler.c-5.us-east-2.aws.neon.tech/neondb?ssl=require"
 
     # JWT Settings (supports SECRET_KEY or JWT_SECRET_KEY)
     JWT_SECRET_KEY: str = Field(
@@ -37,7 +37,11 @@ class Settings(BaseSettings):
     SUPER_ADMIN_PHONE: str = "+10000000000"
 
     # CORS settings
-    CORS_ORIGINS: Union[List[str], str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    CORS_ORIGINS: Union[List[str], str] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://digi-bazar.vercel.app",
+    ]
 
     # Integrations
     STRIPE_SECRET_KEY: str = ""

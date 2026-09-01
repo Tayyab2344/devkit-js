@@ -61,7 +61,7 @@ export default function AnalyticsPage() {
                 key={r}
                 onClick={() => setRange(r)}
                 className={`px-3 py-1.5 rounded-lg font-semibold uppercase transition-all ${
-                  range === r ? "bg-blue-600 text-white shadow-2xs" : "text-slate-600 hover:text-slate-900"
+                  range === r ? "bg-amber-500 text-slate-950 font-bold shadow-2xs" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {r}
@@ -83,7 +83,7 @@ export default function AnalyticsPage() {
           <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Step 1</span>
             <span className="block font-bold text-slate-900 text-sm">Product Listings</span>
-            <span className="text-xl font-extrabold text-blue-600">{totalProducts}</span>
+            <span className="text-xl font-extrabold text-amber-600">{totalProducts}</span>
             <span className="block text-[11px] text-slate-500">Active catalog items</span>
           </div>
 
@@ -136,7 +136,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-blue-600 rounded-full"
+                  className="h-full bg-amber-500 rounded-full"
                   style={{ width: `${totalOrders > 0 ? Math.round((((stats?.processing_orders || 0) + (stats?.shipped_orders || 0)) / totalOrders) * 100) : 0}%` }}
                 />
               </div>

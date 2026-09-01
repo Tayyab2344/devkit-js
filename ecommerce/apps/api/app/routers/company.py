@@ -31,6 +31,8 @@ from app.schemas.company import (
 )
 from app.schemas.product_schemas import (
     CategoryRead,
+    CategoryCreate,
+    CategoryUpdate,
     CategoryRequestCreate,
     CategoryRequestRead,
     ProductCreate,
@@ -123,6 +125,55 @@ async def create_company_category(
         sort_order=category.sort_order,
         children=[],
     )
+
+
+@router.put("/categories/{category_id}", response_model=CategoryRead)
+async def update_company_category(
+    category_id: uuid.UUID,
+    payload: CategoryUpdate,
+    company: Company = Depends(get_current_company_scope),
+    db: AsyncSession = Depends(get_db),
+):
+    """Update a category belonging to this store."""
+    return await CompanyService.update_store_category(
+        db, company, category_id, payload.model_dump(exclude_unset=True)
+    )
+
+
+@router.delete("/categories/{category_id}")
+async def delete_company_category(
+    category_id: uuid.UUID,
+    company: Company = Depends(get_current_company_scope),
+    db: AsyncSession = Depends(get_db),
+):
+    """Delete a store-owned category if no products are assigned."""
+    await CompanyService.delete_store_category(db, company, category_id)
+    return {"message": "Store category deleted successfully"}
+
+
+@router.get("/categories/{category_id}/products", response_model=CompanyPaginatedResponse[EnhancedCompanyProductRead])
+async def list_company_category_products(
+    category_id: uuid.UUID,
+    search: Optional[str] = Query(None),
+    status: Optional[ProductStatus] = Query(None),
+    sort_by: Optional[str] = Query("created_at_desc"),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=100),
+    company: Company = Depends(get_current_company_scope),
+    db: AsyncSession = Depends(get_db),
+):
+    """List products in a category assigned for this store."""
+    result = await CompanyService.list_company_products(
+        db=db,
+        company=company,
+        search=search,
+        status=status,
+        category_id=category_id,
+        sort_by=sort_by,
+        page=page,
+        page_size=page_size,
+    )
+    return result
 
 
 @router.post("/category-requests", response_model=CategoryRequestRead, status_code=status.HTTP_201_CREATED)

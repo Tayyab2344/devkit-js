@@ -135,7 +135,7 @@ export function ProductMediaManager({ images, onChangeImages }: Props) {
       {/* Upload Zone & External URL Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Local File Uploader */}
-        <div className="border-2 border-dashed border-slate-300 hover:border-blue-500 bg-slate-50/50 hover:bg-blue-50/30 rounded-2xl p-6 transition-all text-center flex flex-col items-center justify-center cursor-pointer relative group">
+        <div className="border-2 border-dashed border-slate-300 hover:border-amber-500 bg-slate-50/50 hover:bg-amber-50/30 rounded-2xl p-6 transition-all text-center flex flex-col items-center justify-center cursor-pointer relative group">
           <input
             type="file"
             multiple
@@ -144,8 +144,8 @@ export function ProductMediaManager({ images, onChangeImages }: Props) {
             disabled={isUploading}
             className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10 disabled:cursor-not-allowed"
           />
-          <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-            {isUploading ? <Loader2 className="w-6 h-6 animate-spin" /> : <UploadCloud className="w-6 h-6" />}
+          <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            {isUploading ? <Loader2 className="w-6 h-6 animate-spin text-amber-600" /> : <UploadCloud className="w-6 h-6 text-amber-600" />}
           </div>
           <span className="font-bold text-slate-900 text-sm">
             {isUploading ? "Reading User Image Files..." : "Upload Image Files"}
@@ -166,7 +166,7 @@ export function ProductMediaManager({ images, onChangeImages }: Props) {
             value={externalUrl}
             onChange={(e) => setExternalUrl(e.target.value)}
             placeholder="Enter direct image URL..."
-            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+            className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
           />
 
           {urlError && <p className="text-[11px] text-rose-600 font-medium">{urlError}</p>}

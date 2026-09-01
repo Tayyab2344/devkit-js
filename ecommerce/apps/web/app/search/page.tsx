@@ -88,12 +88,12 @@ function SearchContent() {
           {/* Sorting Dropdown */}
           <div className="flex items-center gap-3">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-              <ArrowUpDown className="w-3.5 h-3.5" /> Sort By:
+              <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" /> Sort By:
             </span>
             <select
               value={selectedSort}
               onChange={(e) => setSelectedSort(e.target.value)}
-              className="bg-white border border-slate-300 font-semibold text-xs text-slate-800 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs"
+              className="bg-white border border-slate-300 font-semibold text-xs text-slate-800 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-xs"
             >
               <option value="relevance">Relevance</option>
               <option value="price_asc">Price: Low → High</option>
@@ -111,12 +111,12 @@ function SearchContent() {
           <aside className="lg:col-span-3 bg-white rounded-3xl p-5 border border-slate-200 shadow-xs space-y-6 sticky top-24">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2 font-black text-sm text-slate-900">
-                <SlidersHorizontal className="w-4 h-4 text-blue-600" />
+                <SlidersHorizontal className="w-4 h-4 text-amber-600" />
                 <span>Filters</span>
               </div>
               <button
                 onClick={handleClearFilters}
-                className="text-[11px] font-bold text-blue-600 hover:underline flex items-center gap-1"
+                className="text-[11px] font-bold text-amber-800 hover:text-amber-900 hover:underline flex items-center gap-1"
               >
                 <RefreshCw className="w-3 h-3" /> Reset
               </button>
@@ -131,7 +131,7 @@ function SearchContent() {
                 <button
                   onClick={() => setSelectedCategory("")}
                   className={`w-full text-left text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${
-                    selectedCategory === "" ? "bg-blue-50 text-blue-600 font-bold" : "text-slate-600 hover:bg-slate-100"
+                    selectedCategory === "" ? "bg-amber-50 text-amber-900 border border-amber-200/80 font-bold" : "text-slate-600 hover:bg-slate-100"
                   }`}
                 >
                   All Categories
@@ -141,7 +141,7 @@ function SearchContent() {
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.slug)}
                     className={`w-full text-left text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${
-                      selectedCategory === cat.slug ? "bg-blue-50 text-blue-600 font-bold" : "text-slate-600 hover:bg-slate-100"
+                      selectedCategory === cat.slug ? "bg-amber-50 text-amber-900 border border-amber-200/80 font-bold" : "text-slate-600 hover:bg-slate-100"
                     }`}
                   >
                     {cat.name}
@@ -161,7 +161,7 @@ function SearchContent() {
                   placeholder="Min"
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
                 <span className="text-slate-400">-</span>
                 <input
@@ -169,7 +169,7 @@ function SearchContent() {
                   placeholder="Max"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
             </div>
@@ -185,7 +185,7 @@ function SearchContent() {
                     key={r}
                     onClick={() => setMinRating(minRating === r ? null : r)}
                     className={`w-full text-left text-xs px-3 py-1.5 rounded-lg font-medium flex items-center gap-1.5 transition-colors ${
-                      minRating === r ? "bg-amber-50 text-amber-900 font-bold" : "text-slate-600 hover:bg-slate-100"
+                      minRating === r ? "bg-amber-50 text-amber-900 font-bold border border-amber-200/80" : "text-slate-600 hover:bg-slate-100"
                     }`}
                   >
                     <span>{r}★ & above</span>
@@ -205,7 +205,7 @@ function SearchContent() {
               </div>
             ) : products.length === 0 ? (
               <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 my-auto">
-                <div className="w-16 h-16 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center mx-auto mb-4">
                   <Grid className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-1">No products found</h3>
@@ -214,7 +214,7 @@ function SearchContent() {
                 </p>
                 <button
                   onClick={handleClearFilters}
-                  className="px-6 py-2.5 bg-blue-600 text-white font-bold text-xs rounded-xl hover:bg-blue-700 transition-colors shadow-md"
+                  className="px-6 py-2.5 bg-zinc-900 text-white hover:bg-zinc-800 font-bold text-xs rounded-xl transition-colors shadow-md"
                 >
                   Clear All Filters
                 </button>

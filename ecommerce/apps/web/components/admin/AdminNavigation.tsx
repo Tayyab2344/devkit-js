@@ -124,13 +124,13 @@ export function AdminNavigation({ collapsed, onToggleCollapse }: AdminNavigation
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-white border-r border-slate-200 select-none">
       <div
-        className="flex items-center border-b border-[var(--border-primary)] px-3 flex-shrink-0"
+        className="flex items-center border-b border-slate-200/80 px-3 flex-shrink-0"
         style={{ height: "var(--header-height)" }}
       >
         <Link href="/admin" className="flex items-center gap-2 min-w-0 focus-ring rounded-md">
-          <Logo size={28} showText={!collapsed} textClassName="text-sm" />
+          <Logo size={28} showText={!collapsed} textClassName="text-sm text-slate-900 font-bold" />
         </Link>
       </div>
 
@@ -139,7 +139,7 @@ export function AdminNavigation({ collapsed, onToggleCollapse }: AdminNavigation
         {NAV_GROUPS.map((group) => (
           <div key={group.label} className="mb-1">
             {!collapsed && (
-              <div className="px-2 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--text-quaternary)]">
+              <div className="px-2 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                 {group.label}
               </div>
             )}
@@ -151,16 +151,16 @@ export function AdminNavigation({ collapsed, onToggleCollapse }: AdminNavigation
                 <Link
                   key={`${group.label}-${item.label}`}
                   href={item.href}
-                  className={`flex items-center gap-2.5 rounded-md text-[13px] font-medium transition-colors focus-ring ${
-                    collapsed ? "justify-center p-2 mx-auto" : "px-2 py-1.5"
+                  className={`flex items-center gap-2.5 rounded-lg text-[13px] font-medium transition-all focus-ring ${
+                    collapsed ? "justify-center p-2 mx-auto" : "px-2.5 py-2"
                   } ${
                     active
-                      ? "bg-[var(--surface-tertiary)] text-[var(--text-primary)]"
-                      : "text-[var(--text-secondary)] hover:bg-[var(--surface-secondary)] hover:text-[var(--text-primary)]"
+                      ? "bg-slate-900 text-white font-semibold shadow-xs"
+                      : "text-slate-600 hover:bg-slate-100/70 hover:text-slate-900"
                   }`}
                   title={collapsed ? item.label : undefined}
                 >
-                  <Icon className="w-4 h-4 flex-shrink-0" />
+                  <Icon className={`w-4 h-4 flex-shrink-0 ${active ? "text-white" : "text-slate-400"}`} />
                   {!collapsed && <span className="truncate">{item.label}</span>}
                 </Link>
               );

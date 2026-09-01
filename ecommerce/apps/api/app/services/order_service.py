@@ -38,6 +38,10 @@ class OrderService:
         # Shipping cost allocation
         shipping_per_order = 25000 if payload.shipping_method == "express" else 0
 
+        from app.services.coupon_service import CouponService
+        from app.services.campaign_service import CampaignService
+        from app.schemas.coupon_schemas import CouponValidationRequest, CartItemValidation
+
         for company_id, items in company_items_map.items():
             subtotal = 0
             order_items_json = []
@@ -88,7 +92,32 @@ class OrderService:
                     )
                     db.add(movement)
 
-            total = subtotal + shipping_per_order
+            # Evaluate Coupon Discount if coupon_code supplied
+            order_discount = 0
+            validated_coupon_id = None
+            if payload.coupon_code:
+                cart_validations = [
+                    CartItemValidation(
+                        product_id=it.product_id,
+                        company_id=it.company_id,
+                        category_id=getattr(it, "category_id", None),
+                        price=it.price,
+                        quantity=it.quantity,
+                    )
+                    for it in items
+                ]
+                val_req = CouponValidationRequest(
+                    code=payload.coupon_code,
+                    company_id=company_id,
+                    cart_items=cart_validations,
+                    order_subtotal=subtotal,
+                )
+                val_res = await CouponService.validate_coupon(db, val_req, customer_id=customer.id)
+                if val_res.valid:
+                    order_discount = val_res.total_discount
+                    validated_coupon_id = val_res.coupon_id
+
+            total = max(0, subtotal - order_discount + shipping_per_order)
             overall_total += total
 
             # Payment status & Stripe reference
@@ -102,7 +131,7 @@ class OrderService:
                 company_id=company_id,
                 items=order_items_json,
                 subtotal=subtotal,
-                discount=0,
+                discount=order_discount,
                 shipping=shipping_per_order,
                 tax=0,
                 total=total,
@@ -112,6 +141,16 @@ class OrderService:
             )
             db.add(order)
             await db.flush()
+
+            # If order is PAID, record coupon usage & campaign conversion
+            if pay_status == PaymentStatus.PAID:
+                if validated_coupon_id:
+                    await CouponService.record_coupon_usage(
+                        db, coupon_id=validated_coupon_id, user_id=customer.id, order_id=order.id, discount_amount=order_discount
+                    )
+                await CampaignService.record_conversion(
+                    db, order=order, session_id=payload.session_id, customer_id=customer.id
+                )
 
             # Create Payment record if card payment
             if is_card:

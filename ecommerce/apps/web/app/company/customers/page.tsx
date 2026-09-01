@@ -56,7 +56,7 @@ export default function CustomersPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search customers by name or email..."
-            className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-slate-900"
+            className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-slate-900"
           />
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function CustomersPage() {
                         {c.first_name} {c.last_name}
                       </td>
                       <td className="py-3 px-4 text-slate-600">{c.email}</td>
-                      <td className="py-3 px-4 font-extrabold text-blue-600">{count} {count === 1 ? "order" : "orders"}</td>
+                      <td className="py-3 px-4 font-bold text-amber-700">{count} {count === 1 ? "order" : "orders"}</td>
                       <td className="py-3 px-4 font-extrabold text-slate-900">{formatPKR(spent)}</td>
                       <td className="py-3 px-4 text-slate-500">{dateStr}</td>
                     </tr>

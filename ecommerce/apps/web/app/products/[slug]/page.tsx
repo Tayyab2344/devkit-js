@@ -156,13 +156,13 @@ export default function ProductDetailPage() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-10">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500 overflow-x-auto py-1">
-          <Link href="/" className="hover:text-blue-600 transition-colors shrink-0">
+          <Link href="/" className="hover:text-amber-700 transition-colors shrink-0">
             Marketplace
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           {product.category && (
             <>
-              <Link href={`/category/${product.category.slug}`} className="hover:text-blue-600 transition-colors shrink-0">
+              <Link href={`/category/${product.category.slug}`} className="hover:text-amber-700 transition-colors shrink-0">
                 {product.category.name}
               </Link>
               <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
@@ -218,7 +218,7 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Pricing Card */}
-            <div className="p-5 bg-gradient-to-r from-slate-900 to-blue-950 rounded-3xl text-white shadow-xl space-y-2 relative overflow-hidden">
+            <div className="p-5 bg-gradient-to-r from-slate-900 to-zinc-950 rounded-3xl text-white shadow-xl space-y-2 relative overflow-hidden">
               <div className="flex items-baseline gap-3 flex-wrap">
                 <span className="text-3xl sm:text-4xl font-black tracking-tight text-white">
                   Rs. {(displayPrice / 100).toLocaleString("en-US", { maximumFractionDigits: 0 })}
@@ -240,7 +240,7 @@ export default function ProductDetailPage() {
             {/* Stock Status & Shipping Perks */}
             <div className="grid grid-cols-3 gap-3 p-3.5 rounded-2xl bg-white border border-slate-200 text-center text-xs font-semibold">
               <div className="flex flex-col items-center gap-1">
-                <Package className="w-4 h-4 text-blue-600" />
+                <Package className="w-4 h-4 text-amber-600" />
                 <span className={currentStock > 0 ? "text-emerald-700 font-bold" : "text-rose-600 font-bold"}>
                   {currentStock > 0 ? `In Stock (${currentStock})` : "Out of Stock"}
                 </span>
@@ -264,7 +264,7 @@ export default function ProductDetailPage() {
                   return (
                     <div key={attrName} className="space-y-2">
                       <label className="text-xs font-bold text-slate-900 uppercase tracking-wider block">
-                        Select {attrName}: <span className="text-blue-600 font-normal">{selectedAttributes[attrName]}</span>
+                        Select {attrName}: <span className="text-amber-700 font-semibold">{selectedAttributes[attrName]}</span>
                       </label>
                       <div className="flex items-center gap-2 flex-wrap">
                         {options.map((opt) => {
@@ -275,8 +275,8 @@ export default function ProductDetailPage() {
                               onClick={() => setSelectedAttributes((prev) => ({ ...prev, [attrName]: opt }))}
                               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
                                 isSelected
-                                  ? "bg-blue-600 text-white border-blue-600 shadow-md ring-2 ring-blue-600/30"
-                                  : "bg-white text-slate-700 border-slate-300 hover:border-blue-400"
+                                  ? "bg-amber-500 text-slate-950 border-amber-500 shadow-md ring-2 ring-amber-500/30"
+                                  : "bg-white text-slate-700 border-slate-300 hover:border-amber-400"
                               }`}
                             >
                               {opt}
@@ -316,9 +316,9 @@ export default function ProductDetailPage() {
                 <button
                   onClick={handleAddToCart}
                   disabled={currentStock <= 0}
-                  className="w-full py-3.5 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                  className="w-full py-3.5 px-6 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-sm shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
                 >
-                  <ShoppingBag className="w-5 h-5" />
+                  <ShoppingBag className="w-5 h-5 text-slate-950" />
                   <span>Add to Cart</span>
                 </button>
                 <Link

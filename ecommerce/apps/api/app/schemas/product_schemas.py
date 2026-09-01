@@ -29,6 +29,9 @@ class CategoryRead(BaseModel):
     company_id: Optional[uuid.UUID] = None
     is_active: bool
     sort_order: int
+    product_count: int = 0
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     children: List["CategoryRead"] = []
 
 
@@ -40,6 +43,16 @@ class CategoryCreate(BaseModel):
     parent_id: Optional[uuid.UUID] = None
     is_active: bool = True
     sort_order: int = 0
+
+
+class CategoryUpdate(BaseModel):
+    name: Optional[str] = Field(None, min_length=2, max_length=100)
+    slug: Optional[str] = None
+    description: Optional[str] = Field(None, max_length=500)
+    image_url: Optional[str] = None
+    parent_id: Optional[uuid.UUID] = None
+    is_active: Optional[bool] = None
+    sort_order: Optional[int] = None
 
 
 class CategoryRequestCreate(BaseModel):

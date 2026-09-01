@@ -78,8 +78,8 @@ export default function CompanyDashboardPage() {
       {/* Header Greeting & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-200/80 mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
             Merchant Operating Dashboard
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -101,9 +101,9 @@ export default function CompanyDashboardPage() {
           </Link>
           <Link
             href="/company/products/new"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-black text-slate-950 bg-amber-500 hover:bg-amber-600 shadow-sm transition-colors"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4 text-slate-950" />
             <span>Add Product</span>
           </Link>
         </div>
@@ -115,7 +115,7 @@ export default function CompanyDashboardPage() {
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-2xs space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500">Total Sales</span>
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-600">
               <DollarSign className="w-4 h-4" />
             </div>
           </div>
@@ -256,7 +256,7 @@ export default function CompanyDashboardPage() {
                   key={tf}
                   onClick={() => setTimeFilter(tf)}
                   className={`px-2.5 py-1 rounded-md font-semibold uppercase transition-all ${
-                    timeFilter === tf ? "bg-blue-600 text-white shadow-2xs" : "text-slate-600 hover:text-slate-900"
+                    timeFilter === tf ? "bg-amber-500 text-slate-950 font-black shadow-2xs" : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
                   {tf}
@@ -271,8 +271,8 @@ export default function CompanyDashboardPage() {
           <svg className="w-full h-full overflow-visible" viewBox="0 0 800 240" fill="none">
             <defs>
               <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#2563EB" stopOpacity="0.25" />
-                <stop offset="100%" stopColor="#2563EB" stopOpacity="0.0" />
+                <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#F59E0B" stopOpacity="0.0" />
               </linearGradient>
             </defs>
             {/* Gridlines */}
@@ -288,15 +288,15 @@ export default function CompanyDashboardPage() {
             />
             <path
               d="M 0 190 Q 100 130, 200 160 T 400 90 T 600 110 T 800 50"
-              stroke="#2563EB"
+              stroke="#F59E0B"
               strokeWidth="3.5"
               strokeLinecap="round"
             />
             {/* Data Point Circles */}
-            <circle cx="200" cy="160" r="5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2.5" />
-            <circle cx="400" cy="90" r="5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2.5" />
-            <circle cx="600" cy="110" r="5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2.5" />
-            <circle cx="800" cy="50" r="5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2.5" />
+            <circle cx="200" cy="160" r="5" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2.5" />
+            <circle cx="400" cy="90" r="5" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2.5" />
+            <circle cx="600" cy="110" r="5" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2.5" />
+            <circle cx="800" cy="50" r="5" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2.5" />
           </svg>
         </div>
       </div>
@@ -312,7 +312,7 @@ export default function CompanyDashboardPage() {
             </div>
             <Link
               href="/company/orders"
-              className="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+              className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1"
             >
               <span>View All</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -355,7 +355,7 @@ export default function CompanyDashboardPage() {
                       <td className="py-3 px-4 text-right">
                         <Link
                           href={`/company/orders/${order.id}`}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors inline-flex"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-amber-700 hover:bg-amber-50 transition-colors inline-flex"
                         >
                           <Eye className="w-4 h-4" />
                         </Link>
@@ -378,7 +378,7 @@ export default function CompanyDashboardPage() {
         <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs p-5 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-slate-900">Top Selling Products</h2>
-            <Link href="/company/products" className="text-xs font-semibold text-blue-600 hover:text-blue-700">
+            <Link href="/company/products" className="text-xs font-bold text-amber-700 hover:text-amber-800">
               View Catalog
             </Link>
           </div>
@@ -431,7 +431,7 @@ export default function CompanyDashboardPage() {
           </div>
           <Link
             href="/company/inventory"
-            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-600 text-white hover:bg-amber-700 transition-colors shadow-2xs"
+            className="text-xs font-black px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 hover:bg-amber-600 transition-colors shadow-2xs"
           >
             Manage Inventory
           </Link>
@@ -463,7 +463,7 @@ export default function CompanyDashboardPage() {
                     <td className="py-3 px-4 text-right">
                       <Link
                         href="/company/inventory"
-                        className="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline"
+                        className="text-xs font-bold text-amber-700 hover:text-amber-800 hover:underline"
                       >
                         Restock Now
                       </Link>

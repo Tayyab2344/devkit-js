@@ -26,6 +26,8 @@ class CheckoutRequest(BaseModel):
     shipping_address: ShippingAddress
     payment_method: str = Field("cod", description="cod or card")
     shipping_method: str = Field("standard", description="standard or express")
+    coupon_code: Optional[str] = Field(None, description="Optional coupon or campaign code")
+    session_id: Optional[str] = Field(None, description="Optional session tracking ID for campaign attribution")
     items: List[CheckoutItem]
 
 

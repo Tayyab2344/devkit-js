@@ -72,7 +72,7 @@ export default function ReviewsPage() {
               </p>
 
               {rev.reply && (
-                <div className="ml-6 p-3 bg-blue-50/60 border-l-4 border-blue-600 rounded-r-xl text-blue-900 space-y-1">
+                <div className="ml-6 p-3 bg-amber-50/60 border-l-4 border-amber-500 rounded-r-xl text-amber-900 space-y-1">
                   <span className="font-bold block text-[11px]">Vendor Response:</span>
                   <p>{rev.reply}</p>
                 </div>
@@ -108,7 +108,7 @@ export default function ReviewsPage() {
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Write your public vendor reply to this customer..."
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-blue-600 text-xs text-slate-900"
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:border-amber-500 text-xs text-slate-900"
                   />
                   <div className="flex justify-end gap-2">
                     <button
@@ -119,7 +119,7 @@ export default function ReviewsPage() {
                     </button>
                     <button
                       onClick={() => handleSendReply(rev.id)}
-                      className="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold shadow-2xs"
+                      className="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-black shadow-2xs hover:bg-amber-600"
                     >
                       Post Reply
                     </button>

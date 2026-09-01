@@ -96,7 +96,7 @@ export const CompanyHeader: React.FC<CompanyHeaderProps> = ({
               <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
               <Link
                 href={b.href}
-                className={`hover:text-blue-600 font-medium ${
+                className={`hover:text-amber-700 font-medium ${
                   i === breadcrumbs.length - 1 ? "text-slate-900 font-semibold" : ""
                 }`}
               >
@@ -151,7 +151,6 @@ export const CompanyHeader: React.FC<CompanyHeaderProps> = ({
           <span>View Store</span>
         </Link>
 
-
         {/* Notification Bell */}
         <button
           onClick={onNotificationClick}
@@ -159,7 +158,7 @@ export const CompanyHeader: React.FC<CompanyHeaderProps> = ({
           title="Notifications"
         >
           <Bell className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-blue-600 ring-2 ring-white" />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-white" />
         </button>
 
         {/* Profile Menu Dropdown */}
@@ -168,9 +167,17 @@ export const CompanyHeader: React.FC<CompanyHeaderProps> = ({
             onClick={() => setProfileOpen(!profileOpen)}
             className="flex items-center gap-2 p-1 rounded-lg hover:bg-slate-100 transition-colors"
           >
-            <div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-              {storeName.charAt(0).toUpperCase()}
-            </div>
+            {profile?.logo_url ? (
+              <img
+                src={profile.logo_url}
+                alt={storeName}
+                className="w-8 h-8 rounded-full object-cover border border-slate-200 shadow-xs"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-amber-500 text-slate-950 font-black text-xs flex items-center justify-center shadow-xs">
+                {storeName.charAt(0).toUpperCase()}
+              </div>
+            )}
             <div className="hidden lg:block text-left">
               <span className="block text-xs font-bold text-slate-900 leading-tight">{storeName}</span>
               <span className="block text-[10px] text-slate-500 font-medium">Vendor Admin</span>

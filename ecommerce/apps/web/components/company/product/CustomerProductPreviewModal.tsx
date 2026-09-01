@@ -37,7 +37,7 @@ export function CustomerProductPreviewModal({
         {/* Header Bar */}
         <div className="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-blue-500 text-white">
+            <span className="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-amber-500 text-slate-950">
               Customer Live Preview
             </span>
             <span className="text-xs text-slate-300">How buyers will see this item on DigiBazar</span>
@@ -76,7 +76,7 @@ export function CustomerProductPreviewModal({
                     key={i}
                     onClick={() => setSelectedImgIdx(i)}
                     className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
-                      selectedImgIdx === i ? "border-blue-600 ring-2 ring-blue-600/20" : "border-slate-200 opacity-60 hover:opacity-100"
+                      selectedImgIdx === i ? "border-amber-500 ring-2 ring-amber-500/20" : "border-slate-200 opacity-60 hover:opacity-100"
                     }`}
                   >
                     <img src={img.url} alt="thumb" className="w-full h-full object-cover" />
@@ -96,7 +96,7 @@ export function CustomerProductPreviewModal({
                   <span>{storeName || "Official Store"}</span>
                 </span>
                 {form.brand && (
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700">
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-200/80">
                     {form.brand}
                   </span>
                 )}
@@ -183,9 +183,9 @@ export function CustomerProductPreviewModal({
 
                 <button
                   type="button"
-                  className="py-3 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
+                  className="py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition-colors flex items-center justify-center gap-2 shadow-md"
                 >
-                  <CreditCard className="w-4 h-4" />
+                  <CreditCard className="w-4 h-4 text-slate-950" />
                   <span>Buy Now</span>
                 </button>
               </div>

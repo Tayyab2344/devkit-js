@@ -234,7 +234,7 @@ export default function EditProductPage() {
     return (
       <CompanyShell>
         <div className="flex flex-col items-center justify-center min-h-[400px] space-y-3">
-          <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+          <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
           <p className="text-xs font-semibold text-slate-500">Loading product details for editing...</p>
         </div>
       </CompanyShell>
@@ -279,7 +279,7 @@ export default function EditProductPage() {
         {/* Section 1: Basic Information */}
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-blue-600" />
+            <FileText className="w-5 h-5 text-amber-600" />
             <span>Product Details</span>
           </h2>
 
@@ -292,7 +292,7 @@ export default function EditProductPage() {
                 required
                 value={form.name}
                 onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
 
@@ -304,7 +304,7 @@ export default function EditProductPage() {
                 required
                 value={form.sku}
                 onChange={(e) => setForm((prev) => ({ ...prev, sku: e.target.value.toUpperCase() }))}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-mono font-bold focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-mono font-bold focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
 
@@ -315,7 +315,7 @@ export default function EditProductPage() {
                 type="text"
                 value={form.brand}
                 onChange={(e) => setForm((prev) => ({ ...prev, brand: e.target.value }))}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
 
@@ -326,7 +326,7 @@ export default function EditProductPage() {
                 rows={2}
                 value={form.short_description}
                 onChange={(e) => setForm((prev) => ({ ...prev, short_description: e.target.value }))}
-                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
 
@@ -338,7 +338,7 @@ export default function EditProductPage() {
                 required
                 value={form.description}
                 onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}
-                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
@@ -347,7 +347,7 @@ export default function EditProductPage() {
         {/* Section 2: Product Media */}
         <section className="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs space-y-4">
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-blue-600" />
+            <ImageIcon className="w-5 h-5 text-amber-600" />
             <span>Product Media & Images</span>
           </h2>
           <ProductMediaManager
@@ -394,7 +394,7 @@ export default function EditProductPage() {
                 required
                 value={form.stock.toString()}
                 onChange={(e) => setForm((prev) => ({ ...prev, stock: parseInt(e.target.value || "0", 10) }))}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-bold focus:bg-white focus:outline-none focus:border-amber-500"
               />
             </div>
           </div>
