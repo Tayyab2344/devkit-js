@@ -161,6 +161,15 @@ class ProductSEOCreate(BaseModel):
     description: Optional[str] = Field(None, max_length=500)
     keywords: Optional[str] = Field(None, max_length=500)
 
+    @field_validator("title", "description", "keywords", mode="before")
+    @classmethod
+    def clean_empty_strings(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            v = v.strip()
+            if not v:
+                return None
+        return v
+
 
 class ProductSEORead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -227,6 +236,10 @@ class ProductCreate(BaseModel):
         "description",
         "barcode",
         "shipping_class",
+        "weight",
+        "length",
+        "width",
+        "height",
         mode="before",
     )
     @classmethod
@@ -244,18 +257,28 @@ class ProductCreate(BaseModel):
             return v.strip().lower()
         return v
 
-    @field_validator("stock", mode="before")
+    @field_validator("price", "sale_price", "cost_price", mode="before")
     @classmethod
-    def clean_stock(cls, v: Any) -> Any:
-        if v == "" or v is None:
-            return 0
-        return v
-
-    @field_validator("sale_price", "cost_price", mode="before")
-    @classmethod
-    def clean_optional_prices(cls, v: Any) -> Any:
+    def clean_prices(cls, v: Any) -> Any:
         if v == "" or v is None:
             return None
+        if isinstance(v, (float, int, str)):
+            try:
+                return int(round(float(v)))
+            except (ValueError, TypeError):
+                return None
+        return v
+
+    @field_validator("stock", "low_stock_threshold", mode="before")
+    @classmethod
+    def clean_integers(cls, v: Any) -> Any:
+        if v == "" or v is None:
+            return 0
+        if isinstance(v, (float, int, str)):
+            try:
+                return int(round(float(v)))
+            except (ValueError, TypeError):
+                return 0
         return v
 
 
@@ -310,6 +333,10 @@ class ProductUpdate(BaseModel):
         "description",
         "barcode",
         "shipping_class",
+        "weight",
+        "length",
+        "width",
+        "height",
         mode="before",
     )
     @classmethod
@@ -325,6 +352,30 @@ class ProductUpdate(BaseModel):
     def clean_status(cls, v: Any) -> Any:
         if isinstance(v, str):
             return v.strip().lower()
+        return v
+
+    @field_validator("price", "sale_price", "cost_price", mode="before")
+    @classmethod
+    def clean_prices(cls, v: Any) -> Any:
+        if v == "" or v is None:
+            return None
+        if isinstance(v, (float, int, str)):
+            try:
+                return int(round(float(v)))
+            except (ValueError, TypeError):
+                return None
+        return v
+
+    @field_validator("stock", "low_stock_threshold", mode="before")
+    @classmethod
+    def clean_integers(cls, v: Any) -> Any:
+        if v == "" or v is None:
+            return 0
+        if isinstance(v, (float, int, str)):
+            try:
+                return int(round(float(v)))
+            except (ValueError, TypeError):
+                return 0
         return v
 
 
