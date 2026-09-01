@@ -109,7 +109,7 @@ class ProductImageRead(BaseModel):
 
 class ProductVariantCreate(BaseModel):
     sku: Optional[str] = None
-    price: int = Field(..., ge=0, description="Integer cents")
+    price: int = Field(0, ge=0, description="Integer cents")
     sale_price: Optional[int] = Field(None, ge=0)
     cost_price: Optional[int] = Field(None, ge=0)
     stock: int = Field(0, ge=0)
@@ -119,6 +119,41 @@ class ProductVariantCreate(BaseModel):
     weight: Optional[float] = None
     attributes: Dict[str, str] = Field(default_factory=dict)
     is_active: bool = True
+
+    @field_validator("sku", "barcode", "image_url", "weight", mode="before")
+    @classmethod
+    def clean_empty_strings(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            v = v.strip()
+            if not v:
+                return None
+        return v
+
+    @field_validator("price", "sale_price", "cost_price", mode="before")
+    @classmethod
+    def clean_prices(cls, v: Any, info) -> Any:
+        if v == "" or v is None:
+            if info.field_name == "price":
+                return 0
+            return None
+        if isinstance(v, (float, int, str)):
+            try:
+                return int(round(float(v)))
+            except (ValueError, TypeError):
+                return 0 if info.field_name == "price" else None
+        return v
+
+    @field_validator("stock", "low_stock_threshold", mode="before")
+    @classmethod
+    def clean_integers(cls, v: Any) -> Any:
+        if v == "" or v is None:
+            return 0
+        if isinstance(v, (float, int, str)):
+            try:
+                return int(round(float(v)))
+            except (ValueError, TypeError):
+                return 0
+        return v
 
 
 class ProductVariantRead(BaseModel):
@@ -195,7 +230,7 @@ class ProductCreate(BaseModel):
     short_description: Optional[str] = None
     description: Optional[str] = None
 
-    price: int = Field(..., ge=0, description="Integer cents")
+    price: int = Field(0, ge=0, description="Integer cents")
     sale_price: Optional[int] = Field(None, ge=0)
     cost_price: Optional[int] = Field(None, ge=0)
     tax_setting: Optional[str] = "STANDARD"
@@ -250,6 +285,13 @@ class ProductCreate(BaseModel):
                 return None
         return v
 
+    @field_validator("product_type", "backorders_policy", "visibility", mode="before")
+    @classmethod
+    def clean_enums(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            return v.strip().upper()
+        return v
+
     @field_validator("status", mode="before")
     @classmethod
     def clean_status(cls, v: Any) -> Any:
@@ -259,14 +301,16 @@ class ProductCreate(BaseModel):
 
     @field_validator("price", "sale_price", "cost_price", mode="before")
     @classmethod
-    def clean_prices(cls, v: Any) -> Any:
+    def clean_prices(cls, v: Any, info) -> Any:
         if v == "" or v is None:
+            if info.field_name == "price":
+                return 0
             return None
         if isinstance(v, (float, int, str)):
             try:
                 return int(round(float(v)))
             except (ValueError, TypeError):
-                return None
+                return 0 if info.field_name == "price" else None
         return v
 
     @field_validator("stock", "low_stock_threshold", mode="before")
@@ -279,6 +323,23 @@ class ProductCreate(BaseModel):
                 return int(round(float(v)))
             except (ValueError, TypeError):
                 return 0
+        return v
+
+    @field_validator("attributes", mode="before")
+    @classmethod
+    def clean_attributes(cls, v: Any) -> Any:
+        if isinstance(v, list):
+            return [
+                attr for attr in v
+                if isinstance(attr, dict) and str(attr.get("name", "")).strip() and str(attr.get("value", "")).strip()
+            ]
+        return v
+
+    @field_validator("tags", mode="before")
+    @classmethod
+    def clean_tags(cls, v: Any) -> Any:
+        if isinstance(v, list):
+            return [str(t).strip().lower() for t in v if str(t).strip()]
         return v
 
 
