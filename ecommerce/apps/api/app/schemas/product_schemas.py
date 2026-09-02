@@ -517,13 +517,17 @@ class EnhancedCompanyProductRead(BaseModel):
                 images_list = imgs
             elif getattr(data, "images", None):
                 json_imgs = getattr(data, "images") or []
+                prod_id = getattr(data, "id", uuid.uuid4())
+                prod_created = getattr(data, "created_at", None) or datetime.now(timezone.utc)
                 images_list = [
                     {
-                        "id": getattr(data, "id", uuid.uuid4()),
+                        "id": uuid.uuid4(),
+                        "product_id": prod_id,
                         "url": u,
                         "is_primary": (idx == 0),
                         "alt_text": getattr(data, "name", ""),
                         "sort_order": idx,
+                        "created_at": prod_created,
                     }
                     for idx, u in enumerate(json_imgs)
                     if isinstance(u, str)

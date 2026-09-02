@@ -372,11 +372,14 @@ class CompanyService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Sale price must be strictly less than regular price.",
             )
-        if data.sale_start_date and data.sale_end_date and data.sale_start_date >= data.sale_end_date:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Sale start date must be before sale end date.",
-            )
+        if data.sale_start_date and data.sale_end_date:
+            d_start = data.sale_start_date.replace(tzinfo=None) if data.sale_start_date.tzinfo else data.sale_start_date
+            d_end = data.sale_end_date.replace(tzinfo=None) if data.sale_end_date.tzinfo else data.sale_end_date
+            if d_start >= d_end:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Sale start date must be before sale end date.",
+                )
 
         # 2. Slug & SKU generation with automatic conflict resolution
         if data.slug and data.slug.strip():
@@ -514,8 +517,7 @@ class CompanyService:
 
         try:
             await db.commit()
-            await db.refresh(product)
-            return product
+            return await CompanyService.get_enhanced_product(db, company, product.id)
         except HTTPException:
             await db.rollback()
             raise
@@ -670,8 +672,7 @@ class CompanyService:
 
         try:
             await db.commit()
-            await db.refresh(product)
-            return product
+            return await CompanyService.get_enhanced_product(db, company, product.id)
         except HTTPException:
             await db.rollback()
             raise
@@ -908,6 +909,19 @@ class CompanyService:
         order.order_status = new_status
         if new_status == OrderStatus.DELIVERED:
             order.payment_status = PaymentStatus.PAID
+
+            # Increment sales_count only on fresh transition to DELIVERED
+            if prev_status != OrderStatus.DELIVERED and order.items:
+                for item in order.items:
+                    product_id = item.get("product_id")
+                    qty = item.get("qty", 1)
+                    if product_id:
+                        prod_res = await db.execute(
+                            select(Product).where(Product.id == uuid.UUID(product_id))
+                        )
+                        product = prod_res.scalar_one_or_none()
+                        if product:
+                            product.sales_count = product.sales_count + qty
 
         history = OrderStatusHistory(
             order_id=order.id,
